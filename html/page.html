@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <title>WorkInProgress</title>
 </head>
 <body>
 
 <header class ="header">
-    <h1> Psychological clinic</h1>
+    <h1> Terapea </h1>
     <nav class ="navbar">
         <ul class ="nav-links">
             <li><a href="AboutUs.html">About us </a> </li>
@@ -20,37 +22,59 @@
         </ul>
     </nav>
 </header>
-
-
 <div class="main">
-    <article id="test">
-        <section id="intro1">
-        <h2 class="header-bar">Welcome to Our Therapy Platform</h2>
-        <p>
-            Where cutting-edge AI technology meets the expertise of
-            experienced psychologists and psychotherapists. Our online therapy platform offers a unique blend of personalized,
-            AI-assisted support and compassionate guidance from licensed professional.
-        </p>
-        </section>
-        <section id="intro2">
-        <h3 class="header-bar">Why choose us?</h3>
-        <p>
-            Whether you're seeking help for anxiety, depression, stress, or personal growth, we're here to provide accessible,
-            high-quality care whenever you need it. Start your journey to better mental health today,
-            with a supportive community and tools tailored just for you.
-        </p>
-        </section>
 
-        <a href="#test"> Odsylacz </a>
-        <button onclick="changeBackgroundColor('blue')">Blue</button>
-        <button onclick="changeBackgroundColor('white')">White</button>
-    </article>
+    <div class="main_container">
+        <!-- Bloczek z tymi ptaszkami smiesznymi  -->
+        <div class="above_carosel">
+            <h2>Your safe place!</h2>
+            <div class="ac_features">
+                <div clas="ac_feature_item">
+                    <i class="bi bi-check-circle-fill text-success"></i> 
+                    <span>Professional support from licensed therapist</span><br>
+                </div>
+                <div clas="ac_feature_item">
+                    <i class="bi bi-check-circle-fill text-success"></i> 
+                    <span>Data security guaranteed</span><br>
+                </div>
+                <div clas="ac_feature_item">
+                    <i class="bi bi-check-circle-fill text-success"></i> 
+                    <span>Latest therapeutic technologies</span><br>
+                </div>
+            </div>        
+        </div>
 
-    <aside class="sidebar">
-        <h4 class="header-sidebar">Latest news</h4>
-        <p style="font-size: x-small">Find more information about mental health and wellness on our blog.</p>
-        <p style="font-size: x-small">Contact our support team for personalized assistance.</p>
-    </aside>
+        <!-- Bloczek z wyborem terapii -->
+        <div class="therapy-selection">
+            <h3>Choose the option that fits your needs best</h3>
+            <div class="therapy-cards">
+                <div class="AI-therapy-card">
+                    <h4>AI Therapy</h4>
+                    <p>Advanced therapy using artificial intelligence to assist with mental health.</p>
+                    <button class="get-started-btn">Get Started</button>
+                </div>
+                <div class="PTSD-therapy-card">
+                    <h4>PTSD Therapy</h4>
+                    <p>Specialized therapy designed for individuals suffering from PTSD.</p>
+                    <button class="get-started-btn">Get Started</button>
+                </div>
+                <div class="Classic-therapy-card">
+                    <h4>Classic therapy</h4>
+                    <p>Classic therapy encompasses a wide range of approaches to help individuals,
+                        couples, and groups overcome personal challenges.</p>
+                    <button class="get-started-btn">Get Started</button>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
 
 
 
