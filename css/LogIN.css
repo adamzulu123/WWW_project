@@ -1,0 +1,196 @@
+/* Basic reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background-color: mintcream;
+    /*
+    background-image: url("../jpg/bg-img.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+body h1{
+    font-size: x-large;
+    margin: 0;
+}
+
+.container-fluid {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    border: none;
+    padding: 30px;
+    min-height: 480px;
+    max-width: 80%;
+    background-color: whitesmoke;
+    box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.7);
+}
+
+.sign-up, .sign-in{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+.sign-up{
+    left: 0; /*left side of the sign-up form on the max left*/
+    opacity: 0;
+    z-index: 1;
+}
+.sign-in{
+    left: 0;
+    opacity: 1; /*visible by default*/
+    z-index: 2; /*to be sure that sign-in is infront signup */
+}
+
+.option-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.form-check-label{
+    font-size: small;
+    margin: 0 5px;
+}
+
+.error{
+    font-family: "Lucida Console", monospace;
+    color: red;
+}
+
+.form-check-input {
+    border-color: dimgrey;
+    background-color: white;
+    scale: 0.8;
+}
+
+
+
+form{
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 50px;
+}
+
+.container-fluid p{
+    font-size: small;
+}
+.container-fluid a{
+    font-size: small;
+}
+
+input{
+    width: 60%;
+    padding: 8px 15px;
+    margin: 4px 5px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+button{
+    width: 30%;
+    margin: 10px;
+    padding: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 80ms ease-in;
+}
+/*cool animation while pressing the button*/
+button:active{
+    transform: scale(0.80);
+}
+
+#login, #register{
+    background-color: transparent; /*lucent (przeźroczyste) tło */
+    border: 2px solid #ffff;
+}
+.container-fluid.right-panel-active .sign-in{
+    transform: translateX(100%);
+}
+.container-fluid.right-panel-active .sign-up{
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+}
+.switch-container{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;/* smooth container animation */
+    z-index: 100;
+}
+
+.container-fluid.right-panel-active .switch-container{
+    transform: translateX(-100%); /* moving switch containder to the left */
+}
+.switch{
+    position: relative;
+    color: whitesmoke;
+    background-color: seagreen;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+/*moving switch class to the right*/
+.container-fluid.right-panel-active .switch{
+    transform: translateX(50%);
+}
+
+.switch-left, .switch-right{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+.switch-left{
+    transform: translateX(-20%);
+}
+.switch-right {
+    right: 0;
+    transform: translateX(0%);
+}
+
+/*when right panel is active then left switch comes back to initial position*/
+.container-fluid.right-panel-active .switch-left{
+    transform: translateX(0);
+}
+/*when right panel is active right switch moves 20% of its container */
+.container-fluid.right-panel-active .switch-right{
+    transform: translateX(20%);
+}
+
+

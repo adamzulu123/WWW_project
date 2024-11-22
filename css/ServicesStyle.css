@@ -1,0 +1,63 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: darkseagreen;
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.appointment-box {
+    background-color: mintcream;
+    border-radius: 10px;
+    border: 1px solid darkgrey;
+    padding: 40px;
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Usuwa odstępy między komórkami */
+    margin-top: 20px;
+}
+
+/* Styl nagłówków tabeli */
+th {
+    background-color: darkolivegreen; /* Kolor tła nagłówków */
+    color: white;
+    padding: 10px; /* Padding wewnętrzny nagłówków */
+    text-align: left; /* Wyrównanie tekstu w nagłówkach */
+}
+
+/* Styl komórek tabeli */
+td {
+    background-color: mintcream;
+    border: 1px solid darkgrey;
+    padding: 15px;
+    text-align: left; /* Wyrównanie tekstu w komórkach */
+}
+
+button {
+    width: auto; /* Change this to auto */
+    min-width: 100px; /* Optional: Set a minimum width */
+    padding: 3px 10px; /* Adjust padding for better look */
+    border-radius: 5px;
+}
+.small-button {
+    margin-top: 15px;
+    align-self: center;
+    font-size: 1em;
+    text-decoration: none;
+    color: black;
+}
+
+

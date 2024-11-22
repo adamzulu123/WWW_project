@@ -1,0 +1,96 @@
+.header{
+    background-color: darkseagreen;
+    padding: 20px;
+}
+header h1 {
+    text-align: center;
+}
+.navbar {
+    display: flex;
+    justify-content: center;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 40px;
+}
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    color: darkgreen;
+    text-decoration: none; /*deleting underline*/
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/*hover effect for links*/
+.nav-links a:hover {
+    background-color: white; /* Kolor tła po najechaniu */
+}
+
+
+.main{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center; /* Centrowanie elementów wewnątrz */
+    gap: 20px; /* Odstęp między sekcjami */
+    margin: 40px;
+}
+
+section{
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+.header-bar{
+    background: aquamarine;
+    font-family: "Lucida Console", monospace;
+    text-align: center;
+    padding: 10px; /* Wewnętrzne odstępy */
+    border-top-left-radius: 18px; /* Zaokrąglenie górnych rogów */
+    border-top-right-radius: 10px; /* Zaokrąglenie górnych rogów */
+    margin: -30px -30px 20px -30px; /* Rozciągnięcie paska na całą szerokość sekcji */
+}
+
+.sidebar{
+    font-size: x-small;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin: 20px;
+    padding: 5px;
+    background: mintcream;
+
+
+}
+.header-sidebar {
+    font-size: small; /* Ujednolicone do small */
+    text-align: center;
+}
+
+p {
+    font-family: "Monaco", monospace;
+    font-size: small;
+}
+
+h3{
+    font-size: medium;
+}
+
+
+
+
+
+
+
+
