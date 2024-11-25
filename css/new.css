@@ -105,17 +105,24 @@
     margin-left: 280px; /* Robi miejsce dla paska bocznego */
     padding: 20px;
     flex-grow: 1;
-    background-color: #f8f9fa;
+
+}
+
+.box-title{
+    font-family: 'Merriweather', serif;
+    font-size: 23px;
+    color: #023D54;
 }
 
 .appointment-box {
-    background-color: white;
+    background-color: mintcream;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
 }
 
 .table {
+    margin-top: 15px;
     width: 100%;
     border-collapse: collapse;
 }
@@ -124,14 +131,28 @@
     padding: 10px;
     text-align: left;
     border: 1px solid #ddd;
+    font-size: 13px;
 }
 
 .table th {
-    background-color: #f2f2f2;
+    background-color: seagreen;
 }
 
+.confirm-button{
+    background-color: #023D54;
+    color: white;
+    border-radius: 8px;
+    border: none; 
+    transition: all 0.2s ease;
+    padding: 8px 15px;
+}
 
-
+.confirm-button:hover{
+    background-color: #137196;
+}
+.confirm-button:active{
+    transform: scale(0.95);
+}
 
 
 
