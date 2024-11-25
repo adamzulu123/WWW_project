@@ -12,7 +12,7 @@
     padding: 20px 40px;
     border: none;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
-    margin-bottom: 80px;
+    margin-bottom: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,7 +35,7 @@
 .brand h1{
     font-family: 'Merriweather', serif;
     margin: 0;
-    font-size: xx-large;
+    font-size:xx-large;
 }
 
 .brand .image {
@@ -264,20 +264,20 @@
     font-size: small;
 }
 
+/*footer style*/
+footer {
+    position:relative;
+    width: 100%;
+    margin-top: 100px;
+    background-color: seagreen; 
+    color: white; 
+    text-align: center; 
+    padding: 20px 0; 
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.footer-bottom p {
+    margin: 0; 
+    font-size: 16px; 
+}
 
 

@@ -1,3 +1,5 @@
+
+
 .header {
     background-color: seagreen;
     padding: 20px 40px; 
@@ -16,7 +18,7 @@
     font-family: 'Merriweather', serif;
     color: white;
     margin: 0;
-    font-size: xx-large;
+    font-size: x-large;
 }
 
 .brand .brand-image {
@@ -262,9 +264,6 @@
 }
 
 
-
-
-
 /*STOPKA*/
 .footer {
     background-color: seagreen;
@@ -305,14 +304,6 @@
 .footer-bottom{ 
     text-align: center;
 }
-
-
-
-
-
-
-
-
 
 
 
