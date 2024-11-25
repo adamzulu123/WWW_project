@@ -47,40 +47,8 @@
     border-radius: 50%;
 }
 
-.back-main-page {
-    margin-right: 20px; 
-}
-
-.back-main-page a{
-    text-decoration: none;
-    color: black; 
-    font-size: 20px; 
-}
-.back-main-page i {
-    font-size: 20px; 
-    margin-right: 5px; 
-}
-
-.back-main-page a:hover{
-    background-color: whitesmoke; 
-    color: black; 
-}
-
-
 body{
     background-color: whitesmoke;
-    /*
-    background-image: url("../jpg/bg-img.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    */
 }
 body h1{
     font-size: x-large;
@@ -139,8 +107,6 @@ body h1{
     background-color: white;
     scale: 0.8;
 }
-
-
 
 form{
     background-color: mintcream;
@@ -263,8 +229,36 @@ button:active{
 }
 
 
+.back-main-page {
+    margin: 20px; 
+    text-align: center; 
+}
 
+.back-main-page a {
+    display: inline-flex; 
+    align-items: center;
+    justify-content: center; 
+    text-decoration: none; 
+    font-size: 1rem; 
+    color: whitesmoke; 
+    background-color: seagreen; 
+    padding: 10px 20px; 
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.7); 
+}
 
+.back-main-page a:hover {
+    background-color: rgb(83, 184, 125); 
+    color: whitesmoke;
+    transform: scale(1.05); 
+    text-decoration: none; 
+}
+
+.back-main-page i {
+    margin-right: 8px; 
+    font-size: 1.4rem; 
+}
 
 
 
