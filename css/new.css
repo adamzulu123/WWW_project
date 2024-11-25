@@ -1,0 +1,158 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+.container{
+    display: block;
+    min-height: 100vh;
+}
+.header{
+    width:100%;
+    display: flex;
+
+}
+.side-nav{
+    width: 280px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    background-color: seagreen;
+    padding: 30px 15px; 
+}
+.side-nav-category-main {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 20px; 
+    width: 100%;
+}
+.brand {
+    font-size: large;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
+
+.brand h1 {
+    font-family: 'Merriweather', serif;
+}
+
+.brand .image {
+    width: 70px;
+    height: 70px;
+    background-image: url('../images/app-logo.webp');
+    background-size: contain;
+    background-position: center;
+    border-radius: 50%;
+}
+
+
+
+.back-main-page{
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+.back-main-page a{
+    text-align: center;
+    text-decoration: none;
+    color: black; 
+    font-size: 20px; 
+    border-radius: 8px;
+    padding: 8px 15px;
+}
+.back-main-page a:hover{
+    background-color: whitesmoke;
+    color: black;
+}
+
+.category h2 {
+    font-size: 20px;
+    color: #023D54;
+    margin-bottom: 15px;
+    margin-top: 15px;
+
+}
+.category-link {
+    display: flex;
+    text-decoration: none;
+    color: #023D54;
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    border-radius: 8px;
+    justify-content: flex-s;
+
+}
+
+.category-link:hover {
+    background-color: whitesmoke;
+    color: #023D54;
+}
+
+/*main content*/
+.main-content {
+    margin-left: 280px; /* Robi miejsce dla paska bocznego */
+    padding: 20px;
+    flex-grow: 1;
+    background-color: #f8f9fa;
+}
+
+.appointment-box {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,7 +10,11 @@ Wymagania część statyczna:
 7. Mozna tez cos z js ale nieobowiazkowe. 
 
 
-
+Colors palette: 
+#023D54 - dark blue
+#seagreen 
+#94DEA5 -light green
+#ffff66 - yellow
 
 
 

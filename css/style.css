@@ -1,14 +1,33 @@
-.header{
+.header {
     background-color: seagreen;
-    padding: 20px;
-    border: none;
+    padding: 20px 40px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
 }
-header h1 {
-    text-align: center;
-    color: whitesmoke;
-    font-family: 'Merriweather', serif;
+.brand {
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
 }
+
+.brand h1 {
+    font-family: 'Merriweather', serif;
+    color: white;
+    margin: 0;
+    font-size: xx-large;
+}
+
+.brand .brand-image {
+    width: 70px; 
+    height:70px; 
+    background-image: url('../images/app-logo.webp');
+    background-size: cover; 
+    background-position: center;
+    border-radius: 50%; 
+}
+
 .navbar {
     display: flex;
     justify-content: center;
