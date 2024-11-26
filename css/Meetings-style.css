@@ -1,0 +1,129 @@
+/* Basic reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.header{ 
+    width: 100%;
+    background-color: seagreen;
+    padding: 20px 40px;
+    border: none;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    margin-bottom: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.container-header{ 
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+
+.brand {
+    text-align: center;
+    color: whitesmoke;
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+
+.brand h1{
+    font-family: 'Merriweather', serif;
+    margin: 0;
+    font-size: xx-large;
+}
+
+.brand .image {
+    width: 70px;
+    height: 70px;
+    background-image: url('../images/app-logo.webp'); 
+    background-size: cover; 
+    background-position: center;
+    border-radius: 50%;
+}
+
+body{
+    background-color: whitesmoke;
+}
+
+
+/*Main content*/
+.container-fluid-main {
+    max-width: 1200px;
+    margin: 30px auto;
+    
+}
+
+.card{
+    background-color: mintcream;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-header{
+    background-color: rgb(68, 172, 113);
+    color: #023D54;    
+}
+
+.card-header h2{
+    font-family: 'Merriweather', serif;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    font-size: small;
+}
+
+.type{
+    font-size: 14px;
+    font-weight: 400;
+    color: #023D54;
+}
+.status{
+    font-size: 14px;
+    color: darkred;
+    font-weight: 600;
+}
+
+/*details button*/
+.extend-info-button{
+    background-color: #023D54;
+    color: white;
+    border-radius: 8px;
+    border: none; 
+    transition: all 0.2s ease;
+    padding: 8px 15px;
+}
+.extend-info-button:hover{
+    background-color: #022431;
+    transform: scale(1.01);
+}
+
+/*Details card style*/
+.card-body a{
+    text-decoration: none;
+    color: #023D54;
+}
+.card-body a:hover{
+    color: #0076a5;
+}
+   
+#doctorEmail{
+    color: #023D54;
+}
+
+
+
+
+
+
+
