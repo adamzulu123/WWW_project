@@ -1,5 +1,7 @@
 # WWW_project
 
+https://adamzulu123.github.io/WWW_project/
+
 Wymagania część statyczna: 
 
 1. Layout z uzyciem kontenerów div: nagłówek, menu, stopka, sidebar
@@ -12,8 +14,11 @@ Wymagania część statyczna:
 
 Colors palette: 
 #023D54 - dark blue
+
 #seagreen 
+
 #94DEA5 -light green
+
 #ffff66 - yellow
 
 
