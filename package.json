@@ -1,0 +1,14 @@
+{
+  "name": "www_project",
+  "version": "1.0.0",
+  "description": "https://adamzulu123.github.io/WWW_project/",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adam Nowak",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
