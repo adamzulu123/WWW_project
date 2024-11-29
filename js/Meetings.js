@@ -1,5 +1,20 @@
 //content loading based on the selected meeting 
 document.addEventListener("DOMContentLoaded", () => {
+
+    fetch('/check-session') //wysyłamy zapytanie get do endpointu /check-session
+        .then(response => response.json()) //serwer odpowiada w formacie json true|false w zaleznosci czy zalogowany 
+        .then(data => { //data ma klucz loggedin - jesli false to przekierowanie na /login
+            if (!data.loggedin) {
+                // jeśli użytkownik nie jest zalogowany, przekieruj go do strony logowania
+                window.location.href = '/login';
+            }
+        })
+        // jesli wystąpi błąd w zapytaniu, także przekieruj na logowanie
+        .catch(error => {
+            console.error('Error while checking session:', error);
+            window.location.href = '/login'; 
+        });
+
     const exampleData = {
         AI: [
             {
