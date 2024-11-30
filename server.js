@@ -4,6 +4,11 @@ const pool = require('./src/database');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const e = require('express');
+const bcrypt = require('bcryptjs');
+
+//routers 
+const registerRouter = require('./src/routes/register');
+const loginRouter = require('./src/routes/login');
 
 const app = express();
 const port = 3000;
@@ -15,6 +20,10 @@ app.use(session({
 	resave: true, //sesja zapisywana za kazdym razem 
 	saveUninitialized: true //sesja tworzona nawet jak nie ma zadnych zmian
 }));
+
+// Pliki EJS w katalogu views - do dynamicznej zmiany plików (wyswietlanie błędów itp)
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); 
 
 // Serwowanie plików statycznych z folderów: html, css, js
 app.use(express.static(path.join(__dirname, 'html')));
@@ -31,29 +40,10 @@ app.get('/check-session', (req, res) => {
     }
 });
 
-
-//login operation
-app.post('/login', (req, res) => {
-    const {email, password, account_type} = req.body;
-
-    const query = `SELECT * FROM Users WHERE email = '${email}' AND password = '${password}' AND account_type = '${account_type}'`;
-
-    pool.query(query, (err, results) => {
-        if(err){
-            console.log("Error while logging", err)
-            return res.status(500).send('Server error');
-        }
-        if(results.length > 0){
-            req.session.loggedin = true;
-            req.session.email = email;
-            console.log('Session:', req.session); 
-            res.redirect('/index.html');
-        }else {
-            //trzeba dodać obsługe w przypadku podania złych danych ze sie bedzie wyswietlało w prostokacie do logowania
-            res.send('Invalid login credentials');
-        }
-    });
-});
+//logowanie
+app.use(loginRouter);
+//rejestracja
+app.use(registerRouter);
 
 
 // Strona główna
@@ -61,39 +51,19 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'index.html'));
 });
 
-// Strona logowania
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'html', 'LogIn.html')); // Ładuje formularz logowania
-});
-
-// Strona services tylko po zalogowaniu
-app.get('/services', (req, res) => {
-    if (req.session.loggedin) {
-        res.sendFile(path.join(__dirname, 'html', 'Services.html'));
-    } else {
-        res.redirect('/login');
-    }
-});
-
-//strona meeting tylko po zalogowaniu 
-app.get('/meetings', (req, res) =>{
-    if(req.session.loggedin){
-        res.sendFile(path.join(__dirname, 'html', 'Meetings.html'))
-    }else{
-        res.redirect('/login')
-    }
-})
-
-//strona userAccount
-app.get('/userAccount', (req, res) =>{
-    if(req.session.loggedin){
-        res.sendFile(path.join(__dirname, 'html', 'UserAccount.html'))
-    }else{
-        res.redirect('/login')
-    }
-})
-
 // Uruchomienie serwera
 app.listen(port, () => {
     console.log(`Serwer działa na http://localhost:${port}`);
 });
+
+
+
+
+
+
+
+/*
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'html', 'LogIn.html')); // Ładuje formularz logowania
+});
+*/
