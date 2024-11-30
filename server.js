@@ -45,7 +45,6 @@ app.use(loginRouter);
 //rejestracja
 app.use(registerRouter);
 
-
 // Strona główna
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'html', 'index.html'));
@@ -57,13 +56,3 @@ app.listen(port, () => {
 });
 
 
-
-
-
-
-
-/*
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'html', 'LogIn.html')); // Ładuje formularz logowania
-});
-*/

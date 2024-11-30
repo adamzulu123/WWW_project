@@ -5,6 +5,7 @@ const pool = require('../database');
 const login = async (req, res) =>{
     const {email, password, account_type} = req.body; 
 
+    //sprawdzamy czy wszystko podane 
     if (!email || !password || !account_type) {
         return res.status(400).render('LogIn', { 
             loginError: 'Email, password, and account type are required',
@@ -30,12 +31,14 @@ const login = async (req, res) =>{
                 console.log('Session:', req.session); 
                 res.redirect('/');
             }else{
+                //niepoprawne dane podane 
                 res.render('LogIn', { 
                     loginError: 'Invalid login credentials',
                     registerError: null
                  });
             }
         } else{
+            //niepoprawne dane podane 
             res.render('LogIn', {
                 loginError: 'Invalid login credentials',
                 registerError: null

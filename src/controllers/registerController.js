@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 const pool = require('../database');
 
-
 const register = async (req, res) => {
     const {first_name, last_name, age, email, password, account_type} = req.body;
 
@@ -13,7 +12,8 @@ const register = async (req, res) => {
         })
     }
 
-     if (parseInt(age) < 18) {
+    //sprawdzamy czy uzytkownik ma ponad 18 lat
+    if (parseInt(age) < 18) {
         return res.render('LogIn', { 
             registerError: 'You must be at least 18 years old to register',
             loginError: null
