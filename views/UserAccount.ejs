@@ -29,23 +29,25 @@
                 <div class="form-container">
                 <form>
                     <div class="mb-3">
-                        <label for="name" class="form-label"> Name </label>
-                        <input type="text" class="form-input" id="name" placeholder="Name" value="">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-input" id="name" value="<%= user.firstName %>" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="surname" class="form-label"> Surname </label>
-                        <input type="text" class="form-input" id="surname" placeholder="Surname" value="">
+                        <label for="surname" class="form-label">Surname</label>
+                        <input type="text" class="form-input" id="surname" value="<%= user.lastName %>" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label"> Email </label>
-                        <input type="text" class="form-input" id="email" placeholder="Email" value="">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-input" id="email" value="<%= user.email %>" readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="Account type" class="form-label"> Account type</label>
-                        <input type="text" class="form-input" id="account_type" placeholder="account_type" value="">
+                        <label for="account_type" class="form-label">Account Type</label>
+                        <input type="text" class="form-input" id="account_type" value="<%= user.account_type %>" readonly>
                     </div>
                 </form>
 
+                <!-- dzięki temu 'if' ten blok zostanie wyswietlony tylko wtedy, gdy pole zostanie definiowane, 
+                lub nie bedzie nullem -->
                 <% if (typeof changePassInfo !== 'undefined' && changePassInfo) { %>
                     <div class="alert alert-<%= messageType %>" role="alert" id="changePassInfo">
                         <%= changePassInfo %>
@@ -63,14 +65,14 @@
                 </form>
                 </div>
             </div>
-    
+
                 <!-- Account Management -->
             <div class="account-management mt-4">
                 <div class="mb-3 action">
                     <form action="/logout" method="POST">
                         <button type="submit" class="btn btn-secondary logout" id="logout">Log Out</button>
                     </form>
-                    <form>
+                    <form action="/delete" method="POST">
                         <button type="submit" class="btn btn-danger delete" id="delete">Delete Account</button>
                     </form>
                 </div>

@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
     fetch('/check-session')
         .then(response => response.json())
         .then(data => {
-            const logLink = document.querySelector('header .navbar .nav-links li a[href="LogIn.html"]'); 
+            const logLink = document.querySelector('header .navbar .nav-links li a[href="/login"]'); 
 
             if(data.loggedin){
                 if(logLink){

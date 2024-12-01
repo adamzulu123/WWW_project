@@ -17,7 +17,14 @@
             </div>
         </div>
     </header>
-    
+
+
+    <% if (typeof logoutDeleteInfo !== 'undefined' && logoutDeleteInfo) { %>
+        <div class="alert alert-<%= messageType %>" role="alert" id="logoutDeleteInfo">
+            <%= logoutDeleteInfo %>
+        </div>
+    <% } %>
+
     <div class="container-fluid" id="container">
         <div class="sign-up">
             <form action="/register" method="POST">
