@@ -23,7 +23,7 @@
             <form action="/register" method="POST">
                 <h1>Sign up</h1>
 
-                <% if (registerError) { %>
+                <% if (typeof registerError !== 'undefined' && registerError) { %>
                 <div class="error" id="errorRegister">
                     <%= registerError %>
                 </div>
@@ -52,7 +52,7 @@
             <form action="/login" method="POST">
                 <h1>Sign in</h1>
 
-                <% if (loginError) { %>
+                <% if (typeof loginError !== 'undefined' && loginError) { %>
                 <div class="error" id="errorLogin">
                     <%= loginError %>
                 </div>

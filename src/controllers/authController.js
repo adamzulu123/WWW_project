@@ -27,7 +27,13 @@ const login = async (req, res) =>{
 
             if(passMatch){
                 req.session.loggedin = true;
-                req.session.email = email;
+                req.session.user = {
+                    id: user.id,
+                    email: user.email,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    account_type: user.account_type
+                };
                 console.log('Session:', req.session); 
                 res.redirect('/');
             }else{

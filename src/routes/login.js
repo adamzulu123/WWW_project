@@ -7,7 +7,7 @@ console.log('Login function:', login);
 const router = express.Router();
 
 router.get('/login', (req, res) => {
-    res.render('LogIn', { loginError: null }); 
+    res.render('LogIn'); 
 });
 
 router.post('/login', login);

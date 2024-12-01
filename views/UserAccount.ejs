@@ -44,9 +44,18 @@
                         <label for="Account type" class="form-label"> Account type</label>
                         <input type="text" class="form-input" id="account_type" placeholder="account_type" value="">
                     </div>
+                </form>
+
+                <% if (typeof changePassInfo !== 'undefined' && changePassInfo) { %>
+                    <div class="alert alert-<%= messageType %>" role="alert" id="changePassInfo">
+                        <%= changePassInfo %>
+                    </div>
+                <% } %>
+
+                <form action="/change_password" method="POST">
                     <div class="mb-3 pass">
                         <label for="password" class="form-label">New Password</label>
-                        <input type="password" class="form-input" id="password" placeholder="New Password" value="">
+                        <input type="password" class="form-input" id="password" name="newPassword" placeholder="New Password">
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-primary">Change Password</button>
@@ -183,21 +192,3 @@
 <script src="../js/UserAccount.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
