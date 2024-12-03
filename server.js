@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs');
 const registerRouter = require('./src/routes/register');
 const loginRouter = require('./src/routes/login');
 const userRouter = require('./src/routes/userRouter');
+const paymentRouter = require('./src/routes//paymentRouter');
 
 const app = express();
 const port = 3000;
@@ -48,6 +49,9 @@ app.use(registerRouter);
 
 //operacje na koncie uytkownika 
 app.use(userRouter);
+
+//formy płatności
+app.use(paymentRouter);
 
 // Strona główna
 app.get('/', (req, res) => {

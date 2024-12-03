@@ -94,44 +94,85 @@
                 <!-- List of active methods -->
             <h4>Active Payment Methods</h4>
             <ul class="list-group">
-                <li class="list-group-item">
-                    <div class="payment-method-title">
-                        <span class="method-title">Credit Card Number: </span>
-                        <span class="method-details">**** **** **** 1234</span>
-                    </div>    
-                    <button class="remove">Remove</button>
-                </li>
-                <li class="list-group-item">
-                    <div class="payment-method-title">
-                        <span class="method-title">Paypal: </span>
-                        <span class="method-details"> adam113@gmail.com </span>
-                    </div>
-                    <button class="remove">Remove</button>
-                </li>
+                <% if (paymentMethods && paymentMethods.length > 0) { %>
+                    <% paymentMethods.forEach(function(method) { %>
+                        <li class="list-group-item">
+                            <div class="payment-method-title">
+                                <span class="method-title"><%= method.payment_type %>: </span>
+                                <span class="method-details">
+                                    <% if (method.payment_type === 'credit-card') { %>
+                                        <%= method.card_number %>
+                                    <% } else if (method.payment_type === 'paypal') { %>
+                                        <%= method.paypal_email %>
+                                    <% } %>   
+                                </span>
+                            </div>
+                            <form action="/remove-payment" method="POST">
+                                <input type="hidden" name="method_id" value="<%= method.id %>" readonly>
+                                <button type="submit" class="remove btn btn-danger btn-sm">Remove</button>
+                            </form>
+                            
+                        </li>
+                    <% }); %>
+                <% } else { %>
+                    <li class="list-group-item">No payment methods available.</li>
+                <% } %>
             </ul>
+            
+            <!-- Information about success of failure of adding new payment method operation-->
+            <% if (typeof addPayment !== 'undefined' && addPayment) { %>
+                <div class="alert alert-<%= messageTypePayment %>" role="alert" id="addPayment">
+                    <%= addPayment %>
+                </div>
+            <% } %>
 
             <!-- Form to add new method -->
             <div class="new-payment">
                 <h5>Add New Payment Method</h5>
-                <form id="paymentForm">
+                <form id="paymentForm" action="/add-payment" method="POST">
                     <!-- Dropdown to select payment method -->
                     <div class="mb-3">
-                        <select id="paymentType" class="form-select">
+                        <select id="paymentType" name="paymentType"class="form-select">
                             <option value="" disabled selected>Select a payment method</option>
                             <option value="credit-card">Credit Card</option>
                             <option value="paypal">PayPal</option>
-                            <option value="bank-transfer">Bank Transfer</option>
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <input type="text" class="form-control" id="paymentDetails" placeholder="Enter payment method details"/>
+                    <!-- Additional fields for Credit Card -->
+                    <div id="creditCardFields" class="payment-fields" style="display: none;">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="cardholderName" id="cardName" placeholder="Cardholder's Full Name" >
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="cardNumber" id="cardNumber" placeholder="Card Number" >
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="cvc" id="cardCVC" placeholder="CVC" title="CVC must be 3 or 4 digits" >
+                        </div>
+                        <div class="mb-3">
+                            <input type="date" class="form-control" name="expirationDate" id="cardExpirationDate" placeholder="Date" >
+                        </div>
+
                     </div>
 
-                    <button type="submit" class="btn btn-primary"> Add payment method</button>
+                    <!-- Additional fields for PayPal -->
+                    <div id="paypalFields" class="payment-fields" style="display: none;">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="paypalFullname" id="paypalName" placeholder="Full Name" >
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="paypalEmail" id="paypalEmail" placeholder="Email Address" >
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="paypalPhone" id="paypalPhone" 
+                                    placeholder="Phone Number (10-15 digits)" title="Phone number must be 10-15 digits">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Payment Method</button>
                 </form>
-            </div>
-            
+            </div>  
         </div>
     </div>
 
