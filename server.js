@@ -11,6 +11,7 @@ const registerRouter = require('./src/routes/register');
 const loginRouter = require('./src/routes/login');
 const userRouter = require('./src/routes/userRouter');
 const paymentRouter = require('./src/routes//paymentRouter');
+const appointmentsRouter = require('./src/routes/appointmentRouter')
 
 const app = express();
 const port = 3000;
@@ -52,6 +53,9 @@ app.use(userRouter);
 
 //formy płatności
 app.use(paymentRouter);
+
+//zakładka do spotkań 
+app.use(appointmentsRouter);
 
 // Strona główna
 app.get('/', (req, res) => {

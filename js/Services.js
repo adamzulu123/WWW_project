@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", ()=> {
 
+    //ten fragment odpowiada za dostępność tej zakładki tylko dla zalogowanych uytkowników 
     fetch('/check-session')
         .then(response => response.json())
         .then(data => {
@@ -13,7 +14,66 @@ document.addEventListener("DOMContentLoaded", ()=> {
             window.location.href = '/login'; // Jeśli wystąpi błąd w zapytaniu, także przekieruj na logowanie
         });
 
-    //created for static presentation. 
+
+    /*
+    document.querySelectorAll('.category-link') - searching for every html element which have category-link class
+    then we are interating through node list and assign function for click action
+    adding EventListiner: e - is the event object - contains info about it. 
+    */
+   
+    document.querySelectorAll('.category-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const category = link.getAttribute('data-category'); // retrieve data-category value from clicked link
+            loadAppointments(category); // call loadAppointments function to load the appointments for the selected category
+        });
+    });
+    
+    function loadAppointments(category){
+        const tableBody = document.querySelector("#appointmentsTable tbody");
+        const tableTitle = document.getElementById('categoryTitle')
+
+        tableBody.innerHTML = "";
+
+        tableTitle.textContent = `Appointments for ${category} therapy: `;
+
+        fetch(`/services/${category}`)
+            .then(response => {
+                console.log("Response status:", response.status);
+                return response.json()
+            })
+            .then(data => {
+                if (data.length > 0) {
+                    data.forEach(appointment => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${appointment.doctor_name}</td>
+                            <td>${appointment.date}</td>
+                            <td>${appointment.address}</td>
+                            <td>${appointment.time}</td>
+                            <td>${appointment.type}</td>
+                            <td>${appointment.available_spots}</td>
+                            <td><button class="btn btn-primary">Book</button></td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    tableBody.innerHTML = "<tr><td colspan='7'>No appointments available for this category.</td></tr>";
+                }
+            })
+            .catch(error => {
+                console.error('Error loading appointments:', error);
+            });
+    }
+}
+);
+
+
+
+
+
+/*
+//created for static presentation. 
     const exampleAppointments ={
         AI: [
             { doctor: "Dr. Emily White", date: "2024-11-28", address: "Online", time: "10:00 AM", type: "Virtual", spots: 8 },
@@ -37,45 +97,4 @@ document.addEventListener("DOMContentLoaded", ()=> {
             { doctor: "Dr. William Harris", date: "2024-12-05", address: "987 Willow Ln", time: "1:30 PM", type: "In-Person", spots: 2 },
         ],
     };
-
-    function loadAppointments(category){
-        const tableBody = document.querySelector("#appointmentsTable tbody");
-        const tableTitle = document.getElementById('categoryTitle')
-
-        tableBody.innerHTML = ""; //clearing table 
-
-        tableTitle.textContent = `Appointments for ${category} therapy: `; //setting a title
-
-        let appointment = exampleAppointments[category];
-
-        appointment.forEach(appointment => {
-            const row = document.createElement("tr");
-            // ` this symbol is used to create tamplates strings (template literals)
-            row.innerHTML = `
-            <td>${appointment.doctor}</td>
-            <td>${appointment.date}</td>
-            <td>${appointment.address}</td>
-            <td>${appointment.time}</td>
-            <td>${appointment.type}</td>
-            <td>${appointment.spots}</td>
-            <td><button class="confirm-button">Book</button></td>
-
-        `;
-        tableBody.appendChild(row); 
-        });
-    }
-
-    /*
-    document.querySelectorAll('.category-link') - searching for every html element which have category-link class
-    then we are interating through node list and assign function for click action
-    adding EventListiner: e - is the event object - contains info about it. 
-    */
-    document.querySelectorAll('.category-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const category = link.getAttribute('data-category'); //retrieve data-category value from pressed link
-            loadAppointments(category); //call load appointment function which is loading available meetting for particular category. 
-        });
-    });
-}
-);
+*/

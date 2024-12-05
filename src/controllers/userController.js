@@ -21,6 +21,7 @@ const change_password = async (req, res) =>{
     const {newPassword} = req.body; 
     const user = req.session.user;
     const user_id = user.id;
+    const paymentMethods = res.locals.paymentMethods;
 
     if(!user.id){
         return res.render('UserAccount', {
@@ -33,7 +34,8 @@ const change_password = async (req, res) =>{
         return res.render('UserAccount', {
             changePassInfo: 'New password cannot be null!',
             messageType: 'danger',
-            user
+            user,
+            paymentMethods: paymentMethods,
         });
     }
 
@@ -54,7 +56,8 @@ const change_password = async (req, res) =>{
         res.render('UserAccount', { 
             changePassInfo: 'Password changed successfully!',
             messageType: 'success',
-            user
+            user,
+            paymentMethods: paymentMethods,
         });
 
     }catch(err){
@@ -110,7 +113,7 @@ const delete_account = async (req, res) =>{
             console.log('Session after delete:', req.session);
             res.render('LogIn', {
                 logoutDeleteInfo: 'Account deleted successfully!',
-                messageType: 'warning'
+                messageType: 'warning',
             });
 
         });

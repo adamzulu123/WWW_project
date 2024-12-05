@@ -4,10 +4,9 @@ const loadPaymentMethods = require('../middleware/loadPaymentMethods');
 
 const router = express.Router();
 
-router.use(loadPaymentMethods);
 
-router.post('/add-payment', addPaymentMethod);
-router.post('/remove-payment', deletePaymentMethod);
+router.post('/add-payment',loadPaymentMethods, addPaymentMethod);
+router.post('/remove-payment',loadPaymentMethods,  deletePaymentMethod);
 
 module.exports = router;
 
