@@ -1,4 +1,8 @@
+//const { response } = require("express");
+
 document.addEventListener("DOMContentLoaded", ()=> {
+    console.log('DOM content loaded'); // Czy event DOMContentLoaded działa?
+
 
     //ten fragment odpowiada za dostępność tej zakładki tylko dla zalogowanych uytkowników 
     fetch('/check-session')
@@ -45,6 +49,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
             .then(data => {
                 if (data.length > 0) {
                     data.forEach(appointment => {
+                        if (appointment.available_spots > 0){ //jeśli liczba miejsc jest większa niz 0 tylko wtedy wyswietlamy 
                         const row = document.createElement("tr");
                         row.innerHTML = `
                             <td>${appointment.doctor_name}</td>
@@ -53,9 +58,16 @@ document.addEventListener("DOMContentLoaded", ()=> {
                             <td>${appointment.time}</td>
                             <td>${appointment.type}</td>
                             <td>${appointment.available_spots}</td>
-                            <td><button class="btn btn-primary">Book</button></td>
+                            <td>
+                                <button class="btn confirm-button"
+                                    data-appointment-id="${appointment.id}" 
+                                    onclick="bookAppointment(this)">
+                                    Book
+                                </button>
+                            </td>
                         `;
                         tableBody.appendChild(row);
+                        }
                     });
                 } else {
                     tableBody.innerHTML = "<tr><td colspan='7'>No appointments available for this category.</td></tr>";
@@ -69,32 +81,34 @@ document.addEventListener("DOMContentLoaded", ()=> {
 );
 
 
+function bookAppointment(button){
+    const appointmentId = button.getAttribute('data-appointment-id');
 
+    console.log('Appointment ID:', appointmentId);  // Dodajemy logowanie
 
+    if (!appointmentId) {
+        alert('Appointment ID is missing!');
+        return;
+    }
 
-/*
-//created for static presentation. 
-    const exampleAppointments ={
-        AI: [
-            { doctor: "Dr. Emily White", date: "2024-11-28", address: "Online", time: "10:00 AM", type: "Virtual", spots: 8 },
-            { doctor: "Dr. James Black", date: "2024-11-29", address: "Online", time: "2:00 PM", type: "Virtual", spots: 6 },
-        ],
-        PTSD: [
-            { doctor: "Dr. Sarah Williams", date: "2024-11-26", address: "123 Recovery St", time: "9:00 AM", type: "In-Person", spots: 5 },
-            { doctor: "Dr. Michael Johnson", date: "2024-11-27", address: "456 Healing Ave", time: "1:00 PM", type: "Virtual", spots: 3 },
-        ],
-        
-        GROUP: [
-            { doctor: "Dr. Clara Green", date: "2024-11-30", address: "789 Maple Ave", time: "11:00 AM", type: "Group", spots: 12 },
-            { doctor: "Dr. Daniel Blue", date: "2024-12-01", address: "101 Oak Dr", time: "3:00 PM", type: "Group", spots: 8 },
-        ],
-        INDIVIDUAL: [
-            { doctor: "Dr. Linda Brown", date: "2024-12-02", address: "321 Pine St", time: "9:30 AM", type: "In-Person", spots: 1 },
-            { doctor: "Dr. Robert Clark", date: "2024-12-03", address: "654 Birch Rd", time: "2:30 PM", type: "In-Person", spots: 1 },
-        ],
-        COUPLES: [
-            { doctor: "Dr. Olivia Gray", date: "2024-12-04", address: "234 Cedar Blvd", time: "10:00 AM", type: "In-Person", spots: 5 },
-            { doctor: "Dr. William Harris", date: "2024-12-05", address: "987 Willow Ln", time: "1:30 PM", type: "In-Person", spots: 2 },
-        ],
-    };
-*/
+    fetch('/book-appointment', 
+    { //ten framgent słuzy wysłaniu do servera ządania POST informujac w formacie json jakie spotkanie chce uzytkownik zarezerwować
+        method: 'POST', 
+        headers:  {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({appointmentId})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success){
+            alert('Appointment booked successfully!');
+            location.reload();
+        }else{
+            alert('Failed to book appointment!');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}

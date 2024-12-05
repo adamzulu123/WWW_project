@@ -16,7 +16,11 @@ const appointmentsRouter = require('./src/routes/appointmentRouter')
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false })); //do obsługi danych przesłanych w formacie URL-encoded = typowe dla formularzy HTML i metody POST 
+
+//do obsługi danych przesłanych w formacie JSON - typowe dla RestFul API, gdzie dane sa przesyłane w formacie obiektu JSON. 
+//czyli słuzy do komunikacji z API lub danymi w formacie JSON!
+app.use(bodyParser.json()); //dane równiez dostepne sa w req.body 
 
 app.use(session({
 	secret: 'admin', //klucz do szyfrowania sesji 

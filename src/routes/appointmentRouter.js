@@ -1,5 +1,5 @@
 const express = require('express');
-const { getEmptyServices, getAppointmentsByCategory } = require('../controllers/appointmentController');
+const { getEmptyServices, getAppointmentsByCategory, bookAppointment} = require('../controllers/appointmentController');
 
 const router = express.Router();
 
@@ -8,6 +8,9 @@ router.get('/services', getEmptyServices);
 
 // Endpoint do wczytywania spotkań
 router.get('/services/:category', getAppointmentsByCategory);
+
+// endpoint do rezerwowania spotkań 
+router.post('/book-appointment', bookAppointment);
 
 module.exports = router;
 
