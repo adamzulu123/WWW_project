@@ -1,8 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const pool = require('../database');
 const {login} = require('../controllers/authController')
-console.log('Login function:', login);
 
 const router = express.Router();
 

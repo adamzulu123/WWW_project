@@ -1,9 +1,8 @@
-const pool = require('../database');
+const PaymentMethod  = require('../models/PaymentMethods');
 
 /*
 ten middleware jest odpowiedzialny za ładowanie danych dotycznacych metod płatnosci na stronach które tego wymagaja. 
 kolejnosc rejestrowania kontrolerów na ma znaczenia, bo potem dzieki next wywołuje sie je w odpowiedniej kolejnosci na danej trasie. 
-
 */
 const loadPaymentMethods = async (req, res, next) => {
     try {
@@ -14,7 +13,11 @@ const loadPaymentMethods = async (req, res, next) => {
         }
 
         const user_id = user.id;
-        const [paymentMethods] = await pool.query('SELECT * FROM PaymentMethods WHERE user_id = ?', [user_id]);
+
+        //const [paymentMethods] = await pool.query('SELECT * FROM PaymentMethods WHERE user_id = ?', [user_id]);
+        const paymentMethods = await PaymentMethod.findAll({
+            where: {user_id},
+        });
 
         res.locals.paymentMethods = paymentMethods || [];  // Umieszczamy metody płatności w res.locals
 

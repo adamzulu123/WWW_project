@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
-const pool = require('../database'); 
-const { unsubscribe } = require('../routes/register');
+const User = require('../models/Users');
 
 //wylogowanie
 const logout = async (req, res) => {
@@ -20,8 +19,8 @@ const logout = async (req, res) => {
 //zmiana hasła 
 const change_password = async (req, res) =>{
     const {newPassword} = req.body; 
-    
     const user = req.session.user;
+    const user_id = user.id;
 
     if(!user.id){
         return res.render('UserAccount', {
@@ -33,15 +32,24 @@ const change_password = async (req, res) =>{
     if(!newPassword | newPassword.trim() === ''){
         return res.render('UserAccount', {
             changePassInfo: 'New password cannot be null!',
-            messageType: 'danger'
+            messageType: 'danger',
+            user
         });
     }
 
     try{
         const salt = await bcrypt.genSalt(10);
-        const bcryptednewpass = await bcrypt.hash(newPassword, salt);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-        await pool.query(`UPDATE Users SET password = ? WHERE id= ?`, [bcryptednewpass, user.id]);
+        //await pool.query(`UPDATE Users SET password = ? WHERE id= ?`, [bcryptednewpass, user.id]);
+        await User.update(
+            {
+                password : hashedPassword
+            },
+            {
+                where: {id: user_id}
+            }
+        );
 
         res.render('UserAccount', { 
             changePassInfo: 'Password changed successfully!',
@@ -60,11 +68,12 @@ const user_account_details = async (req, res) => {
     if (!req.session.loggedin || !req.session.user) {
         return res.redirect('/login'); 
     }
+    const user = req.session.user;
     //korzystamy z danych ustawiony przed middleware!!!!! 
     const paymentMethods = res.locals.paymentMethods;
 
     res.render('UserAccount', {
-        user: req.session.user, 
+        user, 
         paymentMethods: paymentMethods,     
         changePassInfo: null,        
         messageType: null,           
@@ -77,9 +86,21 @@ const delete_account = async (req, res) =>{
         return res.redirect('/login');
     }
 
+    const user = req.session.user;
+    const user_id = user.id;
+
     try{
-        const [results] = await pool.query(`DELETE FROM Users WHERE id = ?`, [req.session.user.id]);
-        console.log(results); //sprawdzanie czy usuwanie sie powiodło 
+        //const [results] = await pool.query(`DELETE FROM Users WHERE id = ?`, [req.session.user.id]);
+        //console.log(results); //sprawdzanie czy usuwanie sie powiodło 
+
+        const destroy_result = await User.destroy({
+            where: {id: user_id }
+        });
+
+        if(!destroy_result){
+            console.error('Failed to delete user:', userId);
+            return res.status(404).send('User not found');
+        }
 
         req.session.destroy(err =>{
             if(err){

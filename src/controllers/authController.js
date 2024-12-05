@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
-const pool = require('../database');
-
+//const pool = require('../database');
+const User = require('../models/Users');
 
 const login = async (req, res) =>{
     const {email, password, account_type} = req.body; 
@@ -14,14 +14,25 @@ const login = async (req, res) =>{
     }
 
     try{
+        /* STARE PODEJSCIE mysql2/promise 
         const query = `SELECT * FROM Users WHERE email = ? AND account_type = ?`;
         const query_values = [email, account_type];
         const [results] = await pool.query(query, query_values); 
         console.log(results); //sprawdzenie zwracanych danych 
+        */
 
-        if(results.length > 0){
-            const user = results[0]; //pobieramy uzytkownika z wyników
+        //findOne() - pierwszy rekord spełniajacy warunek, findAll() - wszystkie rekordy spełniające warunek 
+        const user = await User.findOne({
+            where:{
+                email: email,
+                account_type: account_type,
+            },
+        });
 
+        //if(results.length > 0){
+        //   const user = results[0]; //pobieramy uzytkownika z wyników
+        
+        if (user){
             //porównujemy hasło podane przez uzytkownika z tym co jest zaszyfrowane w bazie danych 
             const passMatch = await bcrypt.compare(password, user.password); 
 
