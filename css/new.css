@@ -51,8 +51,6 @@
     border-radius: 50%;
 }
 
-
-
 .back-main-page{
     position:absolute;
     bottom: 0;
@@ -153,6 +151,57 @@
 .confirm-button:active{
     transform: scale(0.95);
 }
+
+
+/*calendar */
+.calendar-box{
+    background-color: mintcream;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.fc-toolbar-title {
+    font-family: 'Merriweather', serif;
+    font-size: 23px;
+    color: #023D54;
+}
+
+/*ten pasek u góry tabelki kalendarza */
+.fc-col-header {
+    background-color: rgb(68, 172, 113);
+    color: black; 
+    font-size: 13px;
+}
+
+/*wydarzenia w kalendarzu*/
+.fc-event {
+    font-size: 12px; /* Możesz również zmniejszyć czcionkę całego wydarzenia */
+}
+.fc-event-title {
+    font-size: 12px; /* Zmniejsza czcionkę tytułu */
+    white-space: nowrap; /* Zapobiega zawijaniu tekstu w tytule */
+    overflow: hidden; /* Ukrywa nadmiarowy tekst, jeśli jest zbyt długi */
+}
+
+
+.tooltip {
+    font-size: 10px;
+    position: absolute;
+    z-index: 9999;
+    background: rgb(68, 172, 113);
+    color: white;
+    width: 150px;
+    border-radius: 3px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.5);
+    padding: 10px;
+    text-align: center;
+}
+.tooltip b{
+    color: #023D54;
+}
+
+
 
 
 

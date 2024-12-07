@@ -3,7 +3,6 @@
 document.addEventListener("DOMContentLoaded", ()=> {
     console.log('DOM content loaded'); // Czy event DOMContentLoaded działa?
 
-
     //ten fragment odpowiada za dostępność tej zakładki tylko dla zalogowanych uytkowników 
     fetch('/check-session')
         .then(response => response.json())
@@ -41,6 +40,8 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
         tableTitle.textContent = `Appointments for ${category} therapy: `;
 
+        let events = []; //inicajlizacja tabelki events 
+
         fetch(`/services/${category}`)
             .then(response => {
                 console.log("Response status:", response.status);
@@ -58,6 +59,7 @@ document.addEventListener("DOMContentLoaded", ()=> {
                             <td>${appointment.time}</td>
                             <td>${appointment.type}</td>
                             <td>${appointment.available_spots}</td>
+                            <td>${appointment.duration}</td>
                             <td>
                                 <button class="btn confirm-button"
                                     data-appointment-id="${appointment.id}" 
@@ -67,10 +69,24 @@ document.addEventListener("DOMContentLoaded", ()=> {
                             </td>
                         `;
                         tableBody.appendChild(row);
-                        }
-                    });
+
+                        //ładowanie elementów do kalendarza!
+                        events.push({
+                            title: `${appointment.type} with ${appointment.doctor_name}`,
+                            start: `${appointment.date}T${appointment.time}`, 
+                            extendedProps: {
+                                duration: appointment.duration, 
+                                doctor_name: appointment.doctor_name, 
+                                address: appointment.address
+                            }
+                        });
+                    }
+                });
+                // Załaduj kalendarz
+                renderCalendar(events);
                 } else {
                     tableBody.innerHTML = "<tr><td colspan='7'>No appointments available for this category.</td></tr>";
+                    renderCalendar([]); //jak cos to pusty 
                 }
             })
             .catch(error => {
@@ -112,3 +128,50 @@ function bookAppointment(button){
         console.error('Error:', error);
     });
 }
+
+
+function renderCalendar(events) {
+    const calendarEl = document.getElementById('calendar');
+
+    if (!calendarEl) {
+        console.error('Nie znaleziono elementu #calendar');
+        return;
+    }
+
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        
+        eventDidMount: function(info) {
+            const event = info.event;
+            const tooltipContent = `
+                <div>
+                    <p><b>Doctor:</b> ${event.extendedProps.doctor_name}</p>
+                    <p><b>Address:</b> ${event.extendedProps.address}</p>
+                    <p><b>Duration:</b> ${event.extendedProps.duration}</p>
+                </div>
+            `;
+
+            // Ustawienie Tooltips z opóźnieniem, aby upewnić się, że element jest renderowany
+            new bootstrap.Tooltip(info.el, {
+                title: tooltipContent,
+                html: true, // Ważne, żeby tooltip obsługiwał HTML
+                placement: 'top', // Możesz zmienić pozycję, jeśli chcesz
+                trigger: 'hover',
+                container: 'body'
+            });
+            
+        },
+
+        events: events || [], // Przekaż pustą tablicę, jeśli brak wydarzeń
+        eventTimeFormat: {
+            hour: 'numeric',
+            minute: '2-digit',
+            meridiem: 'short'
+        }
+    });
+
+    calendar.render();
+}
+
+

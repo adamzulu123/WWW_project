@@ -43,6 +43,11 @@ Appointment.init({
         allowNull: false,
         defaultValue: 'available',
     },
+    duration: { 
+        type: DataTypes.TIME,
+        allowNull: false,
+        defaultValue: '01:00', // Domyślna wartość
+    },
 },
 {
     sequelize, 
