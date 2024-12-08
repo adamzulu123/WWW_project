@@ -1,80 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-   
-    
-    <link rel="stylesheet" href="../css/new.css"/>
+    <link rel="stylesheet" href="../css/new.css" />
     <!-- Inicjalizacja kalendarz FULLCALENDAR !-->
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <title>Services</title>
 </head>
+
 <body>
 
-<div class="container">
-<div class="header">
-    <div class="side-nav">
-        <div class="side-nav-category-main">
-            <div class="brand">
-                <a href="index.html" class="image"></a>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Nawigacja boczna -->
+            <div class="col-lg-3 col-md-4 side-nav">
+                <div class="side-nav-category-main">
+                    <div class="brand">
+                        <a href="index.html" class="image"></a>
+                    </div>
+
+                    <div class="category">
+                        <h2>Therapy category</h2>
+                        <a href="#" class="category-link" data-category="AI">AI Therapy</a>
+                        <a href="#" class="category-link" data-category="PTSD">PTSD Therapy</a>
+                        <a href="#" class="category-link" data-category="INDIVIDUAL">Individual Therapy</a>
+                        <a href="#" class="category-link" data-category="GROUP">Group Therapy</a>
+                        <a href="#" class="category-link" data-category="COUPLES">Couples Therapy</a>
+                    </div>
+
+                    <div class='back-main-page'>
+                        <a href="index.html" class="btn btn-link">
+                            <i class="bi bi-box-arrow-in-left"></i>
+                            Back
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="category">
-                <h2>Therapy category</h2>
-                <a href="#" class="category-link" data-category="AI">AI Therapy</a>
-                <a href="#" class="category-link" data-category="PTSD">PTSD Therapy</a>
-                <a href="#" class="category-link" data-category="INDIVIDUAL">Individual Therapy</a>
-                <a href="#" class="category-link" data-category="GROUP">Group Therapy</a>
-                <a href="#" class="category-link" data-category="COUPLES">Couples Therapy</a>
-            </div>
-
-            <div class='back-main-page'>
-                <a href="index.html" class="btn btn-link">
-                    <i class="bi bi-box-arrow-in-left"></i>
-                    Back 
-                </a>
+            <!-- Główna treść -->
+            <div class="col-lg-9 col-md-8 main-content">
+                <div class="container-fluid mt-4" id="meetingsContainer">
+                    <div class="appointment-box">
+                        <h2 class="box-title" id="categoryTitle"></h2>
+                        <div class="table-responsive">
+                            <table class="table" id="appointmentsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Doctor</th>
+                                        <th>Date</th>
+                                        <th>Address</th>
+                                        <th>Time</th>
+                                        <th>Type</th>
+                                        <th>Available spots</th>
+                                        <th>Duration</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- The table body will be dynamically populated by Services.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid mt-4" id="calendarContainer">
+                    <div class="calendar-box">
+                        <div id='calendar'>
+                            <!-- dynamicznie ładowana zawartość -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="main-content">
-    <div class="container-fluid mt-4" id="meetingsContainer">
-        <div class="appointment-box">
-            <h2 class="box-title" id="categoryTitle"></h2>
-            <table class="table" id="appointmentsTable">
-                <thead>
-                    <tr>
-                        <th>Doctor</th>
-                        <th>Date</th>
-                        <th>Address</th>
-                        <th>Time</th>
-                        <th>Type</th>
-                        <th>Available spots</th>
-                        <th>Duration</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- The table body will be dynamically populated by Services.js -->
-                </tbody>
-            </table>            
-        </div>
-    </div>
-    <div class="container-fluid mt-4" id="calendarContainer">
-        <div class="calendar-box">
-            <div id='calendar'>
-                <!-- dynamicznie ładowana zawartość  -->
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="../js/Services.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="../js/Services.js"></script>
 </body>
+
 </html>

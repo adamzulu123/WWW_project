@@ -256,6 +256,12 @@
 
 /*Meetings history*/
 
+.meeting-history-container{
+    width: 60%; 
+    margin: 0 auto; 
+    text-align: center; 
+}
+
 .table{
     background-color: mintcream;
     border: 1px solid;
