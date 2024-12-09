@@ -22,12 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
             fetch(`/load-payment-details?appointmentId=${appointmentId}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);  // Log the full response from the server to see its structure
                 if (data && data.appointment) {
                     const paymentContainer = document.querySelector('.card-extended');
 
                     const duration = data.appointment.duration;
                     const [hours, minutes] = duration.split(':');
+
+                    
                     
                     paymentContainer.innerHTML = `
                         <div class="card-header bg-success payment-header">
@@ -71,14 +72,21 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                             
                             <div class="mb-3">
-                                <h5><i class="bi bi-wallet2 me-2"></i>Payment Method</h5>
-                                <label for="paymentMethod" class="form-label">Choose your payment method:</label>
-                                <select id="paymentMethod" class="form-select">
-                                    <option selected disabled>Choose...</option>
-                                    <option value="card">Credit Card</option>
-                                    <option value="paypal">PayPal</option>
-                                </select>
-                            </div>
+                                    <h5><i class="bi bi-wallet2 me-2"></i>Payment Method</h5>
+                                    <label for="paymentMethod" class="form-label">Choose your payment method:</label>
+                                    <select id="paymentMethod" class="form-select">
+                                        <option selected disabled>Choose...</option>
+                                        
+                                        ${data.paymentMethods.map(method => {
+                                            if (method.payment_type === 'credit-card') {
+                                                return `<option value="card-${method.id}">Credit Card: ${method.card_number}</option>`;
+                                            } else if (method.payment_type === 'paypal') {
+                                                return `<option value="paypal-${method.id}">PayPal: ${method.paypal_email}</option>`;
+                                            }
+                                            return '';
+                                        }).join('')}
+                                    </select>
+                                </div>
                     
                             <div class="text-end">
                                 <button class="btn btn-danger"><i class="bi bi-x-circle"></i> Cancel payment</button>
@@ -99,6 +107,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+/*
+//interowanie po metodach płatnosci 
+${data.paymentMethods.map(method => {
+
+    //w zaleznosci od metody platnosci do pola wyboru dodajemy dane pole 
+
+    if (method.payment_type === 'credit-card') { 
+        return `<option value="card-${method.id}">Credit Card: ${method.card_number}</option>`;
+    } else if (method.payment_type === 'paypal') {
+        return `<option value="paypal-${method.id}">PayPal: ${method.paypal_email}</option>`;
+    }
+    return ''; //jesli nie pasuje typ do niczego to wtedy nie dodajemy metody płatnosci 
+
+}).join('')}
+//map() - zwraca tabele wyników <option> dla kazdej metody 
+//łączy wszystkie elementy bez separatorów aby móc wyswietlic w polu paymentMethods <select> 
+
+
+*/
 
 
 

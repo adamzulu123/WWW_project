@@ -2,6 +2,7 @@ const sequelize = require('../database');
 const User = require('./Users');
 const Appointment = require('./Appointments');
 const UserAppointment = require('./UsersAppointments');
+const PaymentMethod = require('./PaymentMethods');
 
 //relacja wiele-do-wielu z Users 
 Appointment.belongsToMany(User, {
@@ -25,4 +26,5 @@ module.exports = {
     User,
     Appointment,
     UserAppointment,
+    PaymentMethod,
 };

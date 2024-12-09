@@ -1,4 +1,4 @@
-const { Appointment, User, UserAppointment } = require('../models');
+const { Appointment, User, UserAppointment, PaymentMethod } = require('../models');
 
 //domyslnie pusta strona bez spotkań z zadnej kategorii 
 const getEmptyServices = (req, res) => {
@@ -139,17 +139,32 @@ const loadPaymentDetails = async (req, res) =>{
         const user_lastName = user.lastName;
         const { appointmentId } = req.query;
 
+        //pobieramy dane o spotkaniu 
         const userWithAppointments = await User.findOne({
             where: { id: user_id },
             include: [{
                 model: Appointment,
-                as: 'appointments',  // This is important, to define the alias for the relationship
+                as: 'appointments',  
                 through: {
-                    attributes: ['is_completed', 'is_paid'],  // Include the UserAppointment data
+                    attributes: ['is_completed', 'is_paid'],  
                 },
-                where: { id: appointmentId },  // Filter by the appointmentId
-                required: true, // Ensure that only appointments linked to the user are returned
-            }],
+                where: { id: appointmentId },  
+                required: true, 
+            },
+        ],
+        });
+
+        //szukanie paymentMethods dodanych do konta uzytkownika 
+        const paymentMethods = await PaymentMethod.findAll({
+            where: { user_id: user_id }, 
+            attributes: [
+                'id',
+                'payment_type',
+                'card_number',
+                'cardholder_name',
+                'expiration_date',
+                'paypal_email'
+            ],
         });
         
 
@@ -157,8 +172,8 @@ const loadPaymentDetails = async (req, res) =>{
             return res.status(404).json({ success: false, message: 'No pending appointment found' });
         }
 
-        const appointment = userWithAppointments.appointments[0]; 
-
+        const appointment = userWithAppointments.appointments[0]; //wybieramy jedna wizyte z tablicy (ale i tak jest jedna bo uzywamy findOne) -tak dla pewnosci 
+        
         res.json({
             success: true,
             appointment: {
@@ -169,6 +184,15 @@ const loadPaymentDetails = async (req, res) =>{
                 duration: appointment.duration,
                 type: appointment.type,
             },
+            //iterujemy po metodach płatnosci i method reprezentuje jeden obiekt metody płatnosci i gdzieki map mapujemy/dfiniujemy co obiekt ma zawierac 
+            paymentMethods: paymentMethods.map(method => ({
+                id: method.id,
+                payment_type: method.payment_type,
+                card_number: method.payment_type === 'credit-card' ? `**** **** **** ${method.card_number.slice(-4)}` : null,
+                cardholder_name: method.cardholder_name,
+                expiration_date: method.expiration_date,
+                paypal_email: method.payment_type === 'paypal' ? method.paypal_email : null,
+            })),
             firstName: user_firstName,
             lastName: user_lastName,
         });
