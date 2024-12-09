@@ -91,7 +91,97 @@ const bookAppointment = async (req, res) =>{
 
 };
 
-module.exports = {getEmptyServices, getAppointmentsByCategory, bookAppointment};
+
+//załadka meetings ładowanie strony za pomoca szablony ejs 
+const getUserMeetingsPage = async (req, res) => {
+    const user = req.session.user;
+
+    if (!user) {
+        return res.redirect('/login'); 
+    }
+
+    const user_id = user.id;
+
+    // Wczytanie spotkań użytkownika z bazy danych
+    const userWithAppointments = await User.findOne({
+        where: { id: user_id },
+        include: [{
+            model: Appointment,
+            as: 'appointments', 
+            through: { attributes: ['is_completed', 'is_paid'] }, // Wykluczamy dane z tabeli pośredniej
+            required: true, // Zapewnia, że tylko użytkownicy z przypisanymi spotkaniami będą zwróceni
+        }],
+    });
+
+    // Transformacja danych na odpowiednie wartości
+    const transformAppointments = userWithAppointments.appointments.map(appointment => {
+        const status = appointment.UserAppointment.is_completed ? 'Ended' : 'Pending';
+        const paymentStatus = appointment.UserAppointment.is_paid ? 'Paid' : 'Not Paid';
+
+        return {
+            ...appointment.dataValues,   // Kopiujemy dane z Appointment
+            status,                      //dodajemy nowe pola
+            paymentStatus,               
+        };
+    });
+    
+    res.render('Meetings', { appointments: transformAppointments });
+};
+
+
+
+//ładowanie danych płatności 
+const loadPaymentDetails = async (req, res) =>{
+    try{
+        const user = req.session.user; //tylko zalogowany user ma do tego dostep wiec nie przejmujemy sie błedami tutaj (ogarniete przez fetch -Meeting.js)
+        const user_id = user.id;
+        const user_firstName = user.firstName;
+        const user_lastName = user.lastName;
+        const { appointmentId } = req.query;
+
+        const userWithAppointments = await User.findOne({
+            where: { id: user_id },
+            include: [{
+                model: Appointment,
+                as: 'appointments',  // This is important, to define the alias for the relationship
+                through: {
+                    attributes: ['is_completed', 'is_paid'],  // Include the UserAppointment data
+                },
+                where: { id: appointmentId },  // Filter by the appointmentId
+                required: true, // Ensure that only appointments linked to the user are returned
+            }],
+        });
+        
+
+        if (!userWithAppointments) {
+            return res.status(404).json({ success: false, message: 'No pending appointment found' });
+        }
+
+        const appointment = userWithAppointments.appointments[0]; 
+
+        res.json({
+            success: true,
+            appointment: {
+                id: appointment.id,
+                date: appointment.date,
+                doctor_name: appointment.doctor_name,
+                price: appointment.price,
+                duration: appointment.duration,
+                type: appointment.type,
+            },
+            firstName: user_firstName,
+            lastName: user_lastName,
+        });
+
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Server error while loading payment details  ");
+    }
+
+};
+
+
+module.exports = {getEmptyServices, getAppointmentsByCategory, bookAppointment, loadPaymentDetails, getUserMeetingsPage};
 
 
 

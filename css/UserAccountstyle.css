@@ -257,7 +257,7 @@
 /*Meetings history*/
 
 .meeting-history-container{
-    width: 60%; 
+    min-height: fit-content;
     margin: 0 auto; 
     text-align: center; 
 }

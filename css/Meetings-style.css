@@ -55,7 +55,8 @@ body{
 /*Main content*/
 .container-fluid-main {
     max-width: 1200px;
-    margin: 30px auto;
+    margin: auto;
+    margin-bottom: 90px;
     
 }
 
@@ -64,13 +65,17 @@ body{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.card-header{
-    background-color: rgb(68, 172, 113);
-    color: #023D54;    
+.card-header, .payment-header {
+    background-color: rgb(68, 172, 113) !important;
+    color: #023D54;  
+    font-family: 'Merriweather', serif;
+    padding: 20px;
+    border-radius: 8px 8px 0 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.card-header h2{
-    font-family: 'Merriweather', serif;
+/* Header text styling for both */
+.card-header h2, .payment-header h2 {
     font-size: 23px;
     font-weight: bold;
 }
@@ -81,11 +86,18 @@ body{
     align-items: center;
     background-color: white;
     font-size: small;
+    background-color: mintcream;
+}
+
+.meeting-data p{
+    font-weight: 500;
+    margin-bottom: 5px;
+
 }
 
 .type{
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 15px;
+    font-weight: 600;
     color: #023D54;
 }
 .status{
@@ -93,8 +105,19 @@ body{
     color: darkred;
     font-weight: 600;
 }
+.payment-status{
+    font-size: 14px;
+    color:mediumpurple; 
+    font-weight: 600;
+}
 
-/*details button*/
+/*buttons */
+.btn-container {
+    display: flex;
+    justify-content: space-between; 
+    gap: 5px; 
+}
+/*details*/
 .extend-info-button{
     background-color: #023D54;
     color: white;
@@ -108,6 +131,39 @@ body{
     transform: scale(1.01);
 }
 
+
+
+/*pay */
+.pay-button{
+    background-color: rgb(68, 172, 113);
+    color: white;
+    border-radius: 8px;
+    border: none; 
+    transition: all 0.2s ease;
+    padding: 5px 15px;
+    font-size: 14px; 
+}
+.pay-button:hover{
+    background-color: darkgreen;
+    transform: scale(1.01);
+}
+
+/*cancel*/
+.cancel-button{
+    background-color: red;
+    color: white;
+    border-radius: 8px;
+    border: none; 
+    transition: all 0.2s ease;
+    padding: 5px 15px;
+    font-size: 14px; 
+}
+.cancel-button:hover{
+    background-color: darkred;
+    transform: scale(1.01);
+}
+
+
 /*Details card style*/
 .card-body a{
     text-decoration: none;
@@ -119,6 +175,57 @@ body{
    
 #doctorEmail{
     color: #023D54;
+}
+
+/*payment details card after pressing PAY button*/
+.card-body a{
+    text-decoration: none;
+    color: #023D54;
+}
+.card-body a:hover{
+    color: #0076a5;
+}
+   
+#doctorEmail{
+    color: #023D54;
+}
+
+.card-extended {
+    background-color: mintcream;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 6px; /* Rounded corners for the entire card */
+    overflow: hidden; /* Ensures the inner elements respect the border radius */
+}
+
+/* Body Content */
+.card-body {
+    padding: 20px;
+}
+
+.card-body h5 {
+    font-size: 1.25rem;
+    color: #023D54;
+    margin-bottom: 10px;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #023D54;
+}
+
+.form-control {
+    background-color: white;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.form-select {
+    font-size: 1rem;
+    border-radius: 4px;
+    padding: 10px;
 }
 
 

@@ -48,6 +48,11 @@ Appointment.init({
         allowNull: false,
         defaultValue: '01:00', // Domyślna wartość
     },
+    price: {
+        type: DataTypes.DECIMAL(10,2), 
+        allowNull: false,
+        defaultValue: 100,
+    },
 },
 {
     sequelize, 

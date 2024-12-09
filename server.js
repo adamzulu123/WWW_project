@@ -58,7 +58,7 @@ app.use(userRouter);
 //formy płatności
 app.use(paymentRouter);
 
-//zakładka do spotkań 
+//router do zarządzania operacjami zwiazanymi ze spotkaniami 
 app.use(appointmentsRouter);
 
 // Strona główna
