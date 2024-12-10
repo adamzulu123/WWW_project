@@ -1,6 +1,7 @@
 const express = require('express');
 const { getEmptyServices, getAppointmentsByCategory, bookAppointment, 
-    loadPaymentDetails, getUserMeetingsPage, cancelAppointment, confirmPayment } = require('../controllers/appointmentController');
+    loadPaymentDetails, getUserMeetingsPage, cancelAppointment, 
+    confirmPayment, getAppointmentDetails } = require('../controllers/appointmentController');
 
 const router = express.Router();
 
@@ -24,6 +25,9 @@ router.post('/cancel-meeting', cancelAppointment);
 
 //endoint do potwierdzenia płatnosci 
 router.post('/confirm-payment', confirmPayment);
+
+//meeting details endpoint 
+router.get('/load-meeting-details',getAppointmentDetails )
 
 module.exports = router;
 

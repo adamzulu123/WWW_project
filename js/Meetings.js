@@ -158,6 +158,89 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    //wyświetlanie szczegółów spotkania - jak opłacimy to mamy przycisk details
+    document.querySelectorAll('.extend-info-button').forEach(button =>{
+        button.addEventListener('click', function(){
+            const appointmentId = button.getAttribute('data-category');
+
+            fetch(`/load-meeting-details?appointmentId=${appointmentId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.appointment && data.user) {
+                    const detailsContainer = document.querySelector('.card-extended');
+
+                    const duration = data.appointment.duration;
+                    const [hours, minutes] = duration.split(':');
+                
+
+                detailsContainer.innerHTML = `
+
+                    <div class="card-header bg-primary custom-header">
+                        <h2><i class="bi bi-info-circle-fill me-2"></i>Meeting Details</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h5><i class="bi bi-person-fill me-2"></i>Doctor</h5>
+                            <p id="Doctor" class="text-muted">${data.appointment.doctor_name}</p>
+                        </div>
+                        <div class="mb-3">
+                            <h5><i class="bi bi-card-text me-2"></i>Description</h5>
+                            <p id="MeetingDescription" class="text-muted"> NO description for the moment </p>
+                        </div>
+                        <div class="mb-3">
+                            <h5><i class="bi bi-calendar-check-fill me-2"></i>Session Details</h5>
+                            <p>
+                                <strong>Date:</strong> ${data.appointment.date}<br>
+                                <strong>Duration:</strong> ${parseInt(hours)} hour(s)<br>
+                                <strong>Type:</strong> ${data.appointment.type}
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <h5><i class="bi bi-file-earmark-arrow-down me-2"></i>Documents</h5>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <a id="recipeLink" href="Receipe (to be done in future)" download>
+                                        <i class="bi bi-file-earmark-medical me-2"></i>Download Recipe
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a id="analysisLink" href="Analysis (to be done in future)" download>
+                                        <i class="bi bi-bar-chart me-2"></i>Download Analysis
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a id="invoiceLink" href="Invoice(to be done in future)" download>
+                                        <i class="bi bi-receipt me-2"></i>Download Invoice
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <h5><i class="bi bi-envelope-fill me-2"></i>Contact Information</h5>
+                            <p>For any inquiries, contact us at: <span id="doctorEmail" class="text-primary"> Terapea@info.com </span></p>
+                        </div>
+                        <div class="text-end">
+                            <button class="btn btn-success">
+                                <i class="bi bi-file-earmark-pdf"></i> Generate PDF Summary
+                            </button>
+                        </div>
+                    </div>
+
+            `;
+
+            }
+            })
+            .catch(error => {
+                console.error('Error while loading meeting details:', error);
+                alert("An error occurred while loading meeting details.");
+            });
+        });
+    });
+
+
+
+
+
     //obsługa cancelowanie meetingu 
     document.querySelectorAll('.cancel-button').forEach(button => {
         button.addEventListener('click', function(){

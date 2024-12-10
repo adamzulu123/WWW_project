@@ -1,5 +1,9 @@
 const { Appointment, User, UserAppointment, PaymentMethod } = require('../models');
 
+
+// SERVICES PAGE 
+
+
 //domyslnie pusta strona bez spotkań z zadnej kategorii 
 const getEmptyServices = (req, res) => {
     res.render('services', {
@@ -90,6 +94,9 @@ const bookAppointment = async (req, res) =>{
     }
 
 };
+
+
+// MEETINGS PAGE 
 
 
 //załadka meetings ładowanie strony za pomoca szablony ejs 
@@ -281,8 +288,74 @@ const confirmPayment = async (req, res) => {
 };
 
 
+//funkcja do pobierania szczegółowych danych na temat spotkania - details - po zapłaceniu mamy dostepne to pole 
+const getAppointmentDetails = async (req, res) => {
+    try{
+        const { appointmentId } = req.query;
+        const user = req.session.user; 
+        const user_id = user.id;
+        const user_firstName = user.firstName;
+        const user_lastName = user.lastName;
+        const user_email = user.email;
+
+        //szukamy w bazie danego spotkania 
+        const appointment = await Appointment.findOne({
+            where: {id: appointmentId},
+            include: [
+                {
+                    model: User,
+                    as: 'users',
+                    through: { attributes: ['is_completed', 'is_paid'] },
+                    required: true,
+                },
+            ],
+        });
+
+        if (!appointment){
+            return res.status(404).json({success: false, message: 'Appointment not found'}); 
+        }
+
+        const userAppointmentDetails = appointment.users[0]?.UserAppointment; 
+
+        if (!userAppointmentDetails) {
+            return res.status(404).json({ success: false, message: 'Details not found for this user and appointment' });
+        }
+
+        return res.json({
+            success: true,
+            user:{
+                id: user_id,
+                firstName: user_firstName,
+                lastName: user_lastName, 
+                email: user_email,
+            },
+            appointment: {
+                id: appointment.id,
+                date: appointment.date,
+                doctor_name: appointment.doctor_name,
+                //description: appointment.description, - dodamy potem 
+                price: appointment.price,
+                duration: appointment.duration,
+                type: appointment.type,
+                isCompleted: userAppointmentDetails.is_completed,
+                isPaid: userAppointmentDetails.is_paid,
+            },
+        });
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Server Error while trying to collect Appointment data");
+    }
+
+};
+
+
+
+
+
+
 module.exports = {getEmptyServices, getAppointmentsByCategory, bookAppointment, 
-    loadPaymentDetails, getUserMeetingsPage, cancelAppointment, confirmPayment };
+    loadPaymentDetails, getUserMeetingsPage, cancelAppointment, confirmPayment,
+    getAppointmentDetails };
 
 
 
