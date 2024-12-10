@@ -1,5 +1,6 @@
 const express = require('express');
-const { getEmptyServices, getAppointmentsByCategory, bookAppointment, loadPaymentDetails, getUserMeetingsPage} = require('../controllers/appointmentController');
+const { getEmptyServices, getAppointmentsByCategory, bookAppointment, 
+    loadPaymentDetails, getUserMeetingsPage, cancelAppointment, confirmPayment } = require('../controllers/appointmentController');
 
 const router = express.Router();
 
@@ -17,6 +18,12 @@ router.get('/meetings', getUserMeetingsPage)
 
 //endpoint do ładowania danych płatności 
 router.get('/load-payment-details', loadPaymentDetails);
+
+//endpoint do usuwania rezerwacji spotkania 
+router.post('/cancel-meeting', cancelAppointment);
+
+//endoint do potwierdzenia płatnosci 
+router.post('/confirm-payment', confirmPayment);
 
 module.exports = router;
 

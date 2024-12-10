@@ -89,11 +89,63 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </div>
                     
                             <div class="text-end">
-                                <button class="btn btn-danger"><i class="bi bi-x-circle"></i> Cancel payment</button>
-                                <button class="btn btn-success"><i class="bi bi-check-circle"></i> Confirm Payment</button>
+                                <button class="btn btn-danger cancel-payment-button"><i class="bi bi-x-circle"></i> Cancel payment</button>
+                                <button class="btn btn-success confirm-payment-button"><i class="bi bi-check-circle"></i> Confirm Payment</button>
                             </div>
                         </div>
                     `;
+
+                //dodajemy obsługe potwierdzania płatnosci dla wybranego spotkania 
+                const confirmPaymentButton = paymentContainer.querySelector('.confirm-payment-button');
+                confirmPaymentButton.addEventListener('click', function(){
+                    const billingAddress = document.querySelector('#billingAddress').value;
+                    const paymentMethod = document.querySelector('#paymentMethod').value;
+
+                    if (!billingAddress && !paymentMethod){
+                        alert('Please fill all required fields');
+                        return; 
+                    }
+
+                    fetch('/confirm-payment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ appointmentId, billingAddress, paymentMethod })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.success){
+                            alert('Paymeny successtully confirmed'); 
+                            window.location.reload()
+                        }else{
+                            switch (data.message) {
+                                case 'Missing required payment details':
+                                    alert('Missing required payment details.');
+                                    break;
+                                case 'Failed to found this bookind or meeting':
+                                    alert('Failed to found this bookind or meeting');
+                                    break;
+                                default:
+                                    alert('Failed to pay for this appointment. Please try again later.');
+                                    break;
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error during payment confirmation:', error);
+                        alert('An error occurred during payment confirmation.');
+                    });
+                });
+
+
+                //anulowanie płatnosci polega po prostu na przeładowaniu strony, bo w sumie po co bardziej komplikowac 
+                const cancelPaymentButton = paymentContainer.querySelector('.cancel-payment-button');
+                cancelPaymentButton.addEventListener('click', function(){
+                    window.location.reload();
+                });
+
+
                 } else {
                     console.error('No appointment found in response:', data);
                 }
@@ -104,6 +156,32 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         
         });
+    });
+
+    //obsługa cancelowanie meetingu 
+    document.querySelectorAll('.cancel-button').forEach(button => {
+        button.addEventListener('click', function(){
+            const appointmentId = button.getAttribute('data-id'); 
+
+            fetch(`/cancel-meeting`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ appointmentId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Przeładuj stronę, aby odświeżyć listę spotkań
+                    alert('Reservation cancel successfully!');
+                    window.location.reload('/meetings');
+                } else {
+                    alert('Failed to cancel meeting.');
+                }
+            });
+        });
+
     });
 
 });

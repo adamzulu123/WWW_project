@@ -121,7 +121,21 @@ function bookAppointment(button){
             alert('Appointment booked successfully!');
             location.reload();
         }else{
-            alert('Failed to book appointment!');
+            //odpowiedni komunikat w zaleznosci od błedu rezerwacji 
+            switch (data.message) {
+                case 'Appointment not found':
+                    alert('The appointment you are trying to book does not exist.');
+                    break;
+                case 'No available spots':
+                    alert('No available spots for this appointment.');
+                    break;
+                case 'You have already booked this meeting!':
+                    alert('You have already booked this appointment.');
+                    break;
+                default:
+                    alert('Failed to book the appointment. Please try again later.');
+                    break;
+            }
         }
     })
     .catch(error => {

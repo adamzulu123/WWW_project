@@ -26,6 +26,10 @@ UserAppointment.init(
             type: DataTypes.DATE,
             defaultValue: Sequelize.NOW,
         },
+        is_paid: {
+            type: DataTypes.TINYINT(1),
+            defaultValue: 0,
+        },
     },
     {
         sequelize,

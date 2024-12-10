@@ -116,7 +116,7 @@ const getUserMeetingsPage = async (req, res) => {
     // Transformacja danych na odpowiednie wartości
     const transformAppointments = userWithAppointments.appointments.map(appointment => {
         const status = appointment.UserAppointment.is_completed ? 'Ended' : 'Pending';
-        const paymentStatus = appointment.UserAppointment.is_paid ? 'Paid' : 'Not Paid';
+        const paymentStatus = appointment.UserAppointment.is_paid === 1 ? 'Paid' : 'Not Paid';
 
         return {
             ...appointment.dataValues,   // Kopiujemy dane z Appointment
@@ -204,8 +204,85 @@ const loadPaymentDetails = async (req, res) =>{
 
 };
 
+//cancelowanie zarezerwowanych spotkań 
+const cancelAppointment = async (req, res) => {
+    try{
+        const user = req.session.user; 
+        const user_id = user.id;
 
-module.exports = {getEmptyServices, getAppointmentsByCategory, bookAppointment, loadPaymentDetails, getUserMeetingsPage};
+        const { appointmentId } = req.body;
+
+        const userAppointment = await UserAppointment.findOne({
+            where: {
+                user_id: user_id,
+                appointment_id: appointmentId,
+            },
+        });
+
+        if (!userAppointment) {
+            return res.status(404).json({ success: false, message: 'Appointment not found or not booked by this user' });
+        }
+
+        await userAppointment.destroy(); 
+
+        //aktualizujemy liczbę miejsc 
+        const appointment = await Appointment.findByPk(appointmentId); 
+        if(appointment){
+            //dodawanie jednego miejsca - bo zwalniamy rezerwacje 
+            await appointment.increment('available_spots', { by: 1 }); 
+
+            // Jeśli status spotkania był "not_available", zmieniamy go na "available", jeśli są wolne miejsca
+            if (appointment.available_spots > 0 && appointment.status === 'not_available') {
+                await appointment.update({ status: 'available' });
+            }
+        }
+
+        res.json({ success: true, message: 'Appointment successfully canceled' });
+
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Server Error while canceling meeting");
+    }
+};
+
+
+const confirmPayment = async (req, res) => {
+    try{ 
+        const user = req.session.user; 
+        const user_id = user.id;
+        const { appointmentId, billingAddress, paymentMethod } = req.body;
+
+        if (!appointmentId || !billingAddress || !paymentMethod){
+            return res.status(404).json({success: false, message: 'Missing required payment details'});
+        }
+
+        //pobieranie rezerwacji uzytkownika
+        const userAppointment = await UserAppointment.findOne({
+            where:{
+                user_id: user_id,
+                appointment_id: appointmentId,
+            },
+        });
+
+        if (!userAppointment){
+            return res.status(404).json({success: false, message: 'Failed to found this bookind or meeting'}); 
+        }
+
+        //zmieniamy status is_paid na true bo zakładamy ze płatnosci uzytkownika przejdzie
+        await userAppointment.update({is_paid: 1}); 
+
+        return res.json({success: true, message: 'Payment confirmed successfully!'});
+    
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Server Error while confirming payment");
+    }
+
+};
+
+
+module.exports = {getEmptyServices, getAppointmentsByCategory, bookAppointment, 
+    loadPaymentDetails, getUserMeetingsPage, cancelAppointment, confirmPayment };
 
 
 
