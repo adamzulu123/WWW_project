@@ -20,6 +20,15 @@ User.belongsToMany(Appointment, {
     as: 'appointments', //alias pod taka nazwa dostepne 
 })
 
+// Relacja między UserAppointment a PaymentMethod
+UserAppointment.belongsTo(PaymentMethod, {
+    foreignKey: 'payment_method_id',  // Klucz obcy w UserAppointment
+    as: 'paymentMethod', // Alias dla powiązanej metody płatności
+});
+
+// PaymentMethod nie ma potrzeby zawierać odniesienia do UserAppointment - bo po co w rodzajach płatnosci maiałby byc klucz ze spotkania 
+
+
 // Eksport modeli i instancji Sequelize
 module.exports = {
     sequelize,

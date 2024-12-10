@@ -18,6 +18,10 @@ UserAppointment.init(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
+        payment_method_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
         is_completed: {
             type: DataTypes.BOOLEAN,
             defaultValue: false, 
@@ -29,6 +33,10 @@ UserAppointment.init(
         is_paid: {
             type: DataTypes.TINYINT(1),
             defaultValue: 0,
+        },
+        description:{
+            type: DataTypes.TEXT,
+            allowNull: true,
         },
     },
     {

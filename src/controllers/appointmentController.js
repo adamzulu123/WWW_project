@@ -1,4 +1,6 @@
 const { Appointment, User, UserAppointment, PaymentMethod } = require('../models');
+const { Op } = require('sequelize');
+const moment = require('moment'); 
 
 
 // SERVICES PAGE 
@@ -25,7 +27,29 @@ const getAppointmentsByCategory = async (req, res) =>{
             order: [['date', 'ASC']] //sortowanie spotkań po dacie
         });
 
-        res.json(appointments); //przesyłamy do frontend dane w formacie json 
+        for (let appointment of appointments) { //iterujemy po spotkaniach pobranych 
+            const appointmentDate = moment(`${appointment.date}T${appointment.time}`, 'YYYY-MM-DDTHH:mm:ss').toDate(); //tworzenie obiektu z czasu i daty spotania 
+            const now = moment().toDate(); //pobieramy aktualna date 
+            
+            // Jeśli spotkanie już minęło, zmieniamy jego status
+            if (appointmentDate < now) { 
+                await appointment.update({ status: 'not_available' }); // Ustawiamy status na 'not_available'
+                console.log(`Spotkanie ID: ${appointment.id} zmienione na 'not_available'.`);
+            }
+        }
+
+         // Po aktualizacji pobierz świeże dane
+         const updatedAppointments = await Appointment.findAll({
+            where: {
+                type: category,
+                status: 'available',
+            },
+            order: [['date', 'ASC']]
+        });
+
+        res.json(updatedAppointments);
+
+        //res.json(appointments); //przesyłamy do frontend dane w formacie json 
 
     } catch(err){
         console.log(err);
@@ -120,14 +144,44 @@ const getUserMeetingsPage = async (req, res) => {
         }],
     });
 
+    //sprawdzanie czy juz jakies spotkanie sie nie odbyło po dacie i wtedy ustawiamy is_completed na 1 - czyli ze zakonczone !!!!!!
+    for (let appointment of userWithAppointments.appointments) { //iterujemy po spotkaniach pobranych 
+        const appointmentDate = moment(`${appointment.date}T${appointment.time}`, 'YYYY-MM-DDTHH:mm:ss').toDate(); //tworzenie obiektu z czasu i daty spotania 
+        const now = moment().toDate(); //pobieramy aktualna date 
+
+        if (appointmentDate < now && !appointment.UserAppointment.is_completed) {
+            await UserAppointment.update(
+                {is_completed: 1},
+                {
+                    where: {
+                        user_id: user_id,
+                        appointment_id: appointment.id,
+                    },
+                }
+            );
+            console.log(`Spotkanie ID: ${appointment.id} dla użytkownika ID: ${user_id} oznaczone jako zakończone.`);
+        }
+    }
+
+    // Wczytanie spotkań użytkownika z bazy danych po aktualizacji czasowej - czy juz spotkanie się odbyło 
+    const updatedUserWithAppointments = await User.findOne({
+        where: { id: user_id },
+        include: [{
+            model: Appointment,
+            as: 'appointments', 
+            through: { attributes: ['is_completed', 'is_paid'] }, // Wykluczamy dane z tabeli pośredniej
+            required: true, // Zapewnia, że tylko użytkownicy z przypisanymi spotkaniami będą zwróceni
+        }],
+    });
+
     // Transformacja danych na odpowiednie wartości
-    const transformAppointments = userWithAppointments.appointments.map(appointment => {
+    const transformAppointments = updatedUserWithAppointments.appointments.map(appointment => {
         const status = appointment.UserAppointment.is_completed ? 'Ended' : 'Pending';
         const paymentStatus = appointment.UserAppointment.is_paid === 1 ? 'Paid' : 'Not Paid';
 
         return {
             ...appointment.dataValues,   // Kopiujemy dane z Appointment
-            status,                      //dodajemy nowe pola
+            status,                      // Dodajemy nowe pola
             paymentStatus,               
         };
     });
@@ -275,8 +329,15 @@ const confirmPayment = async (req, res) => {
             return res.status(404).json({success: false, message: 'Failed to found this bookind or meeting'}); 
         }
 
+        // Wyodrębniamy tylko ID metody płatności z wartości 'paymentMethod' (np. 'card-123' -> '123')
+        //trzeba tak zrobic, bo wczesniej ustawiam na np card-1 albo paypal-23, w pliku Meetings.js w ładowaniu danych do płatnosci 
+        const paymentMethodId = paymentMethod.split('-')[1];  
+
         //zmieniamy status is_paid na true bo zakładamy ze płatnosci uzytkownika przejdzie
-        await userAppointment.update({is_paid: 1}); 
+        await userAppointment.update({
+            is_paid: 1,
+            payment_method_id: paymentMethodId, //przypisujemy ID metody jaka zapłacilismy 
+        }); 
 
         return res.json({success: true, message: 'Payment confirmed successfully!'});
     
