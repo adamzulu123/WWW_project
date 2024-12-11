@@ -17,6 +17,8 @@ const getEmptyServices = (req, res) => {
 //ładowanie spotkań z danej kategorii 
 const getAppointmentsByCategory = async (req, res) =>{
     try{ 
+        const user = req.session.user;
+        const user_id = user.id;
         const { category } = req.params;
 
         const appointments = await Appointment.findAll({
@@ -47,7 +49,31 @@ const getAppointmentsByCategory = async (req, res) =>{
             order: [['date', 'ASC']]
         });
 
-        res.json(updatedAppointments);
+
+        //sprawdzamy czy spotaknie jest juz zarezerwowane!!!
+        const userAppointments = await UserAppointment.findAll({
+            where: {
+                user_id: user_id,
+                appointment_id: updatedAppointments.map(appointment => appointment.id), //mapowanie i pobieranie tych dostepnych zarezerwoanych spotkań 
+            },
+        });
+
+        if (!userAppointments){
+            console.log("No booking done")
+        }
+
+        //dodajemy isBooked 
+        const updatedUserAppointments = updatedAppointments.map(appointment => {
+            // Sprawdzamy, czy dane spotkanie zostało już zarezerwowane przez użytkownika
+            const isBooked = userAppointments.some(userAppointment => userAppointment.appointment_id === appointment.id);
+
+            return {
+                ...appointment.toJSON(), // Konwertujemy na zwykły obiekt JSON
+                isBooked: isBooked // Dodajemy nowe pole isBooked
+            };
+        });
+
+        res.json(updatedUserAppointments);
 
         //res.json(appointments); //przesyłamy do frontend dane w formacie json 
 
@@ -56,6 +82,8 @@ const getAppointmentsByCategory = async (req, res) =>{
         res.status(500).send('Server Error while meetings loading')
     }
 };
+
+
 
 //bukowanie spotkań przez uzytkownika
 const bookAppointment = async (req, res) =>{
@@ -118,6 +146,14 @@ const bookAppointment = async (req, res) =>{
     }
 
 };
+
+
+
+
+
+
+
+
 
 
 // MEETINGS PAGE 
@@ -408,10 +444,6 @@ const getAppointmentDetails = async (req, res) => {
     }
 
 };
-
-
-
-
 
 
 module.exports = {getEmptyServices, getAppointmentsByCategory, bookAppointment, 

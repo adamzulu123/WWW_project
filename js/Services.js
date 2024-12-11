@@ -77,7 +77,9 @@ document.addEventListener("DOMContentLoaded", ()=> {
                             extendedProps: {
                                 duration: appointment.duration, 
                                 doctor_name: appointment.doctor_name, 
-                                address: appointment.address
+                                address: appointment.address,
+                                status: appointment.status,
+                                isBooked: appointment.isBooked,
                             }
                         });
                     }
@@ -174,6 +176,15 @@ function renderCalendar(events) {
                 trigger: 'hover',
                 container: 'body'
             });
+
+            if (event.extendedProps.isBooked){
+                info.el.style.backgroundColor = '#023D54'; 
+                info.el.style.color = 'white';
+            }
+            else{
+                info.el.style.backgroundColor = '#44ac71'; 
+                info.el.style.color = 'white';
+            }
             
         },
 
