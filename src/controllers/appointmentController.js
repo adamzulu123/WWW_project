@@ -402,7 +402,7 @@ const getAppointmentDetails = async (req, res) => {
                 {
                     model: User,
                     as: 'users',
-                    through: { attributes: ['is_completed', 'is_paid'] },
+                    through: { attributes: ['payment_method_id', 'is_completed', 'is_paid', 'description'] },
                     required: true,
                 },
             ],
@@ -430,12 +430,13 @@ const getAppointmentDetails = async (req, res) => {
                 id: appointment.id,
                 date: appointment.date,
                 doctor_name: appointment.doctor_name,
-                //description: appointment.description, - dodamy potem 
+                description: userAppointmentDetails.description,
                 price: appointment.price,
                 duration: appointment.duration,
                 type: appointment.type,
                 isCompleted: userAppointmentDetails.is_completed,
                 isPaid: userAppointmentDetails.is_paid,
+                payment_method_id: userAppointmentDetails.payment_method_id,
             },
         });
     }catch(err){

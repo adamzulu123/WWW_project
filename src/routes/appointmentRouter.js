@@ -3,6 +3,8 @@ const { getEmptyServices, getAppointmentsByCategory, bookAppointment,
     loadPaymentDetails, getUserMeetingsPage, cancelAppointment, 
     confirmPayment, getAppointmentDetails } = require('../controllers/appointmentController');
 
+const {generatePDF} = require('../controllers/pdfController')
+
 const router = express.Router();
 
 // Domyślna strona "Services"
@@ -27,7 +29,11 @@ router.post('/cancel-meeting', cancelAppointment);
 router.post('/confirm-payment', confirmPayment);
 
 //meeting details endpoint 
-router.get('/load-meeting-details',getAppointmentDetails )
+router.get('/load-meeting-details',getAppointmentDetails);
+
+//generowanie pdf
+router.post('/generate-pdf', generatePDF);
+
 
 module.exports = router;
 

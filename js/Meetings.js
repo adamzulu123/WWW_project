@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                         <div class="mb-3">
                             <h5><i class="bi bi-card-text me-2"></i>Description</h5>
-                            <p id="MeetingDescription" class="text-muted"> NO description for the moment </p>
+                            <p id="MeetingDescription" class="text"> ${data.appointment.description} </p>
                         </div>
                         <div class="mb-3">
                             <h5><i class="bi bi-calendar-check-fill me-2"></i>Session Details</h5>
@@ -196,37 +196,62 @@ document.addEventListener("DOMContentLoaded", () => {
                             </p>
                         </div>
                         <div class="mb-3">
-                            <h5><i class="bi bi-file-earmark-arrow-down me-2"></i>Documents</h5>
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <a id="recipeLink" href="Receipe (to be done in future)" download>
-                                        <i class="bi bi-file-earmark-medical me-2"></i>Download Recipe
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a id="analysisLink" href="Analysis (to be done in future)" download>
-                                        <i class="bi bi-bar-chart me-2"></i>Download Analysis
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a id="invoiceLink" href="Invoice(to be done in future)" download>
-                                        <i class="bi bi-receipt me-2"></i>Download Invoice
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="mb-3">
                             <h5><i class="bi bi-envelope-fill me-2"></i>Contact Information</h5>
                             <p>For any inquiries, contact us at: <span id="doctorEmail" class="text-primary"> Terapea@info.com </span></p>
                         </div>
                         <div class="text-end">
-                            <button class="btn btn-success">
+                            <button class="btn btn-success generate-PDF-button">
                                 <i class="bi bi-file-earmark-pdf"></i> Generate PDF Summary
                             </button>
                         </div>
                     </div>
 
             `;
+
+
+            //generowanie pdf z danymi spotkania i wgl 
+            const generatePdfButton = detailsContainer.querySelector('.generate-PDF-button');
+            generatePdfButton.addEventListener('click', function(){
+
+                const pdfData = {
+                    user: data.user,
+                    appointment: data.appointment,
+                };
+
+                fetch(`/generate-pdf`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user: data.user,
+                        appointment: {
+                            ...data.appointment,
+                            id: appointmentId,
+                        }    
+                    }),
+                })
+                
+                //sprawdzamy poprawność odpowiedzi serwera 
+                .then(response => {
+                    if (response.ok) return response.blob(); //server wysłał pdf jako dane binarne (obiekt blob) które teraz mozemy wyswietlic lub zapisac 
+                     throw new Error('Failed to generate PDF')
+                })
+                //obiekt blob reprezetuje zawartosć pliku pdf 
+                .then(blob =>{
+                    const link = document.createElement('a'); // Tworzenie elementu <a> HTML
+                    link.href = URL.createObjectURL(blob); // Generowanie URL dla danych blob
+                    link.download = `Appointment_${appointmentId}_${data.user.firstName}_Details.pdf`; // Ustawienie nazwy pliku do pobrania
+                    link.click(); // Automatyczne kliknięcie, które wywołuje pobieranie pliku
+                    URL.revokeObjectURL(link.href); //po operacji pobrania usuwany tymczaowy link URL 
+                })
+                .catch(error => {
+                    // Obsługa błędów w przypadku problemów podczas pobierania pliku
+                    console.error('Error while generating PDF:', error);
+                    alert("Failed to generate PDF. Please try again.");
+                });
+
+            });
 
             }
             })
@@ -236,7 +261,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
-
 
 
 
