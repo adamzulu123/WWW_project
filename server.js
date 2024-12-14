@@ -12,6 +12,7 @@ const loginRouter = require('./src/routes/login');
 const userRouter = require('./src/routes/userRouter');
 const paymentRouter = require('./src/routes//paymentRouter');
 const appointmentsRouter = require('./src/routes/appointmentRouter')
+const specialistPanelRouter = require('./src/routes/specialistPanelRouter');
 
 const app = express();
 const port = 3000;
@@ -40,8 +41,11 @@ app.use('/images', express.static(__dirname+ '/images'));
 
 // Endpoint do sprawdzenia, czy użytkownik jest zalogowany
 app.get('/check-session', (req, res) => {
-    if (req.session.loggedin) {
-        res.json({ loggedin: true });
+    if (req.session.loggedin && req.session.user) {
+        res.json({ 
+            loggedin: true, 
+            user: req.session.user,
+        });
     } else {
         res.json({ loggedin: false });
     }
@@ -60,6 +64,9 @@ app.use(paymentRouter);
 
 //router do zarządzania operacjami zwiazanymi ze spotkaniami 
 app.use(appointmentsRouter);
+
+//router do ładowania strony specialisty 
+app.use(specialistPanelRouter);
 
 // Strona główna
 app.get('/', (req, res) => {

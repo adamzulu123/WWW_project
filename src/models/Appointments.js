@@ -53,6 +53,10 @@ Appointment.init({
         allowNull: false,
         defaultValue: 100,
     },
+    doctor_id:{
+        type: DataTypes.INTEGER, 
+        allowNull: true,
+    }
 },
 {
     sequelize, 

@@ -27,6 +27,10 @@ UserAppointment.belongsTo(PaymentMethod, {
 });
 
 // PaymentMethod nie ma potrzeby zawierać odniesienia do UserAppointment - bo po co w rodzajach płatnosci maiałby byc klucz ze spotkania 
+Appointment.belongsTo(User, {
+    foreignKey: 'doctor_id',
+    as: 'doctor', 
+});
 
 
 // Eksport modeli i instancji Sequelize
