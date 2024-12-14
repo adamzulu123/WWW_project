@@ -95,9 +95,16 @@
                                 </li>
                                 <div class="members-list" id="members-list-<%= appointment.id %>" style="display: none;">
                                     <ul class="list-group">
-                                    <!-- Lista uczestników zostanie załadowana tutaj -->
+                                    <!-- lista uczestników  -->
                                     </ul>
                                 </div>
+
+                                 <!--formularz gdzie dodajemy opis spotkania -->
+                                <div class="description-form" id="description-form-<%= appointment.id %>" style="display: none;">
+                                    <textarea id="description-text-<%= appointment.id %>" class="form-control" rows="3" placeholder="Enter description here"></textarea>
+                                    <button class="btn btn-primary mt-2" id="<%= appointment.id %>">Submit</button>
+                                </div>
+
                             <% }); %>
                         <% } else { %>
                             <li class="list-group-item">No scheduled meetings</li>

@@ -140,9 +140,43 @@ const loadingMeetingMembers = async (req, res) => {
 };
 
 
+const updateDescription = async (req, res) => {
+    try{
+        const user = req.session.user;
+        const user_id = user.id; 
+
+        const {appointmentId, description} = req.body; 
+
+        //sprawdzamy czy istnieje spotkanie na wszelki
+        const appointment = await UserAppointment.findOne({
+            where: { appointment_id: appointmentId} 
+        });
+
+        if (!appointment){
+            return res.status(404).json({ success: false, message: 'Appointment not found' });
+        }
+
+        //nadpisujemy to description
+        appointment.description = description;
+        await appointment.save();
+
+        //zapisywanie zmiany w appointment
+        //await appointment.update({
+        //    description: description,
+        //});
+
+        return res.status(200).json({ success: true, message: 'Description updated successfully' });
+
+    }catch (error) {
+        console.error(error);
+        return res.status(500).json({ success: false, message: 'Server error while adding description' });
+    }
+};
 
 
 
-module.exports = {loadSpecialistPanel, addMeeting, loadSpecialistMeetings, cancelMeeting, loadingMeetingMembers};
+
+module.exports = {loadSpecialistPanel, addMeeting, loadSpecialistMeetings, 
+    cancelMeeting, loadingMeetingMembers, updateDescription};
 
 

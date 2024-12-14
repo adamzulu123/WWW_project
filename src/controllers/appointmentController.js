@@ -375,6 +375,8 @@ const confirmPayment = async (req, res) => {
             payment_method_id: paymentMethodId, //przypisujemy ID metody jaka zapłacilismy 
         }); 
 
+        //w sumie przez save() tez by mozna to zrobic!
+
         return res.json({success: true, message: 'Payment confirmed successfully!'});
     
     }catch(err){

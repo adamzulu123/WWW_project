@@ -99,5 +99,55 @@ document.addEventListener("DOMContentLoaded", ()=>{
     });
 
 
+    //wyswietlanie bloczka do pisania description
+    document.querySelectorAll('.description-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const appointmentId = button.getAttribute('data-id');
+            const descriptionForm = document.getElementById(`description-form-${appointmentId}`);
+
+            // Jeśli formularz jest już widoczny, ukryj go
+            if (descriptionForm.style.display === "block") {
+                descriptionForm.style.display = "none";
+                return;
+            }
+
+            // Pokaż formularz do edycji opisu
+            descriptionForm.style.display = "block";
+        });
+    });
+
+
+    //dodawanie opisu spotkania 
+    document.querySelectorAll('.description-form button').forEach(button => {
+        button.addEventListener('click', function(){
+            const appointmentId = button.getAttribute('id'); 
+            const descriptionText = document.getElementById(`description-text-${appointmentId}`).value;
+       
+              fetch('/updateDescription', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    appointmentId: appointmentId,
+                    description: descriptionText
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Description updated successfully!");
+                    // Ukryj formularz po zapisaniu
+                    document.getElementById(`description-form-${appointmentId}`).style.display = "none";
+                } else {
+                    alert("Failed to update description.");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Error while updating the description.");
+            });
+        });
+    });
 
 });
