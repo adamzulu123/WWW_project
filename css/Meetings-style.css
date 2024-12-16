@@ -6,9 +6,10 @@
     font-family: Arial, sans-serif;
 }
 
+
 .header{ 
     width: 100%;
-    background-color: seagreen;
+    background-color: #2e8b57;
     padding: 20px 40px;
     border: none;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
@@ -61,7 +62,7 @@ body{
 }
 
 .card{
-    background-color: mintcream;
+    background-color: rgb(245, 255, 250);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 

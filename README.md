@@ -22,6 +22,7 @@ Colors palette:
 #ffff66 - yellow
 
 
-
+https://huemint.com/gradient-4/ - trzeba tu ładna kolorystyke wybrac bo ten zielony lipa 
+LogIn kolor zmieniony na test
 
 
