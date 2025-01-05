@@ -1,0 +1,5 @@
+.env
+*.sql
+.vscode
+.json
+node_modules/

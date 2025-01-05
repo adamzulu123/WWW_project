@@ -1,4 +1,9 @@
 /* css/style.css */
+body{
+    background: #d4eed3;
+    min-height: 100vh;
+}
+
 .header {
     background-color: seagreen;
     padding: 20px 40px; 

@@ -6,6 +6,11 @@
     font-family: Arial, sans-serif;
 }
 
+body{
+    background: #d4eed3;
+    min-height: 100vh;
+}
+
 /* Header */
 .header{ 
     width: 100%;

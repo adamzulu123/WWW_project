@@ -4,6 +4,11 @@
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
+body{ 
+    background: #d4eed3;
+    min-height: 100vh;
+}
+
 .container{
     display: block;
     min-height: 100vh;
@@ -117,6 +122,7 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    border-radius: 6px;
 }
 
 .table {
@@ -159,6 +165,7 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    border-radius: 6px;
 }
 
 .fc-toolbar-title {
@@ -200,7 +207,6 @@
 .tooltip b{
     color: #023D54;
 }
-
 
 
 
