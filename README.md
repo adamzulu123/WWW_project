@@ -22,6 +22,7 @@ The project was developed using the following technologies:
 - **EJS (Embedded JavaScript)**: A templating engine that dynamically generates HTML pages on the server, ensuring smooth and interactive user experiences.  
 - **PDFKit**: A library used for creating and exporting therapy session summaries as downloadable PDF files.  
 - **FullCalendar**: Calendar library used for displaying avaiable meetings on the calendar. 
+- **bcrypt**
 
 ## Project structure 
 This project combines both RESTful API endpoints and server-side rendered (SSR) views to deliver a seamless user experience:
