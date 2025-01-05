@@ -55,9 +55,15 @@ Server-Side Rendering (SSR) with EJS:
 
 
 ## WebApp view 
+![Main Page](images/MainPage.png)
+![Login](images/login.png)
+![Services](images/services.png)
+![MeetingsDescription](images/MeetingsDescription.png)
+![MeetingsPayment](images/MeetingsPay.png)
+![Account](images/account.png)
+![SpecialistPanel](images/specialistPanel.png)
 
-
-
+![PDF](images/Appointment_details_example-1.png)
 
 
 
