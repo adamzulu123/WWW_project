@@ -13,6 +13,7 @@ const sequelize = new Sequelize({
 });
 
 //sprawdzanie czy połaczenia działa
+
 sequelize.authenticate()
     .then(() => {
         console.log('Database connection is ON!');
@@ -22,6 +23,12 @@ sequelize.authenticate()
     });
 
 module.exports = sequelize;
+
+
+// Sprawdzanie połączenia z bazą
+
+
+
 
 
 //powyzej aktualizajca na sequelize - bo pozwala na mapowanie obiektów na na tabele bazy danych i wgl upraszczajac w ten sposób prace 
